@@ -1,0 +1,4 @@
+/setting_information_not_for_git.txt
+*.pyc
+staticfiles
+*DS_Store

@@ -1,0 +1,17 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'textpage/style.css' %}" />
+
+<style>
+/*body {color: red;}*/
+</style>
+
+{% if text1 %}
+  {{text1}}
+{% endif %}
+   
+You are on the template page!
+
+{% if text2 %}
+  {{text2}}
+{% endif %}

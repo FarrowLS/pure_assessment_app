@@ -92,8 +92,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Added to allow template files to be served from multiple directories
+# http://stackoverflow.com/questions/11768143/heroku-cant-find-django-templates
+PROJECT_DIR = os.path.dirname(__file__) # this is not Django setting.
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_DIR, "templates"),
+    # here you can add another templates directory if you wish.
+)

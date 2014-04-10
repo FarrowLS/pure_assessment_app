@@ -36,8 +36,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# Settings move to environment setting files
 # DEBUG = True
-
 # TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'textpage',
+    'about',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,7 +99,7 @@ USE_TZ = True
 
 # Added to allow template files to be served from multiple directories
 # http://stackoverflow.com/questions/11768143/heroku-cant-find-django-templates
-PROJECT_DIR = os.path.dirname(__file__) # this is not Django setting.
+PROJECT_DIR = os.path.dirname(__file__) # this is not a standard Django setting.
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR, "templates"),
     # here you can add another templates directory if you wish.

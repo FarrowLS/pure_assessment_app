@@ -9,8 +9,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'pure_assessment_app.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^textpage/', include('textpage.urls')),
+    url(r'^about/', include('about.urls')),
     url(r'^admin/', include(admin.site.urls)),
     # For redirecting root url
-    (r'^$', lambda r : HttpResponseRedirect('textpage/')),
+    (r'^$', lambda r : HttpResponseRedirect('about/')),
 )

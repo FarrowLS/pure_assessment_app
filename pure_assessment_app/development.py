@@ -16,7 +16,7 @@ DATABASES = {
 }
 
 
-# Static asset configuration
+# Static asset configuration - Moved to base.py settings file
 # import os
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # STATIC_ROOT = 'staticfiles'

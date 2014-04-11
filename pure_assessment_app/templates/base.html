@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="{% static "pure_assessment_app/bootstrap-3.1.1-dist/css/bootstrap.min.css" %}">    
-    <link rel="stylesheet" type="text/css" href="{% static 'pure_assessment_app/pure_assessment_app_files/style.css' %}" /> 
+    <link rel="stylesheet" type="text/css" href="{% static 'pure_assessment_app/pure_assessment_app_files/css/main.css' %}" /> 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -26,14 +26,37 @@
 
 <body>
 
-    <h1>Pure Assessment App</h1>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="home.html">Pure Assessment App</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="home.html">Home</a></li>
+                    <li class="active"><a href="#">About</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="app-template">
+            <h1>Pure Assessment App</h1>
 
-    hi! You are in the base.html template in the template sub-directory in the pure_assessment_app package <br />
+            hi! You are in the base.html template in the template sub-directory in the pure_assessment_app package <br />
 
-    {% block stuff  %}
+            {% block stuff  %}
 
-    {% endblock stuff  %}
-
+            {% endblock stuff  %}
+        </div><!-- End .app-template -->
+    </div>
 
     <script src="{% static "pure_assessment_app/jquery-1.11.0/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "pure_assessment_app/bootstrap-3.1.1-dist/js/bootstrap.min.js" %}"></script>
@@ -41,7 +64,7 @@
     <script>
         // Test script section
         $(function () {
-            alert('hello!');
+            // alert('hello!');
         });
     </script>
 

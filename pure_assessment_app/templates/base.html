@@ -1,10 +1,50 @@
+{# base.html #}
 {% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'pure_assessment_app/style.css' %}" /> 
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <title>Pure Assessment App</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="{% static "pure_assessment_app/bootstrap-3.1.1-dist/css/bootstrap.min.css" %}">    
+    <link rel="stylesheet" type="text/css" href="{% static 'pure_assessment_app/pure_assessment_app_files/style.css' %}" /> 
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <h1>Pure Assessment App</h1>
+
+    hi! You are in the base.html template in the template sub-directory in the pure_assessment_app package <br />
+
+    {% block stuff  %}
+
+    {% endblock stuff  %}
 
 
-hi! You are in the base.html template in the template sub-directory in the pure_assessment_app package <br />
+    <script src="{% static "pure_assessment_app/jquery-1.11.0/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "pure_assessment_app/bootstrap-3.1.1-dist/js/bootstrap.min.js" %}"></script>
+ 
+    <script>
+        // Test script section
+        $(function () {
+            alert('hello!');
+        });
+    </script>
 
-{% block stuff  %}
+</body>
 
-{% endblock stuff  %}
+</html>

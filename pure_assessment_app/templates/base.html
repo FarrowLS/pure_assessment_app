@@ -35,12 +35,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Pure Assessment App</a>
+                <a class="navbar-brand" href="/">Pure Assessment App</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class=""><a href="#">Home</a></li>
-                    <li class="active"><a href="#">About</a></li>
+                    <li class=""><a href="/">Home</a></li>
+                    <li class="active"><a href="{% url 'aboutindex' %}">About</a></li>
                     <li><a href="#">Logout</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -48,9 +48,10 @@
     </div>
     <div class="container">
         <div class="app-template">
-            <h1>Pure Assessment App</h1>
+            <h4>{% block title  %}Pure Assessment App{% endblock title %}</h4>
 
-            hi! You are in the base.html template in the template sub-directory in the pure_assessment_app package <br />
+            
+            {% block template-loading %}<p class="text-warning">base.html template loaded</p>{% endblock template-loading %}
 
             {% block stuff  %}
 

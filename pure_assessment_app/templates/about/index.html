@@ -1,19 +1,17 @@
 {% extends "base.html"  %}
 {% load staticfiles %}
 
-{% block stuff  %}
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'textpage/style.css' %}" /> --> 
+{% block title %}About{% endblock title %}
 
-<style>
-/*body {color: red;}*/
-</style>
+{% block template-loading %}{{ block.super }}<p class="text-warning">about/index.html template loaded</p>{% endblock template-loading %}
+
+{% block stuff  %}
 
 {% if text1 %}
   {{text1}}
 {% endif %}
    
-You are on the template page in the pure_assessment_app package!
-
+ Test text 
 <br />
 <br />
 
@@ -22,8 +20,3 @@ You are on the template page in the pure_assessment_app package!
 {% endif %}
 
 {% endblock stuff  %}
-
-<br />
-<br />
-
-

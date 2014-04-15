@@ -1,0 +1,18 @@
+{% extends "base.html"  %}
+
+{% if page.title %}
+    {% block title %}
+        {{ page.title }}
+    {% endblock title %}
+{% endif %}
+
+{% block template-loading %}
+    {{ block.super }}
+    <p class="text-warning">about/page_detail.html template loaded</p>
+{% endblock template-loading %}
+
+{% if page.body %}
+    {% block body  %}
+        {{ page.body }}
+    {% endblock body  %}
+{% endif %}

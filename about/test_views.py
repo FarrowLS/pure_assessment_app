@@ -21,11 +21,12 @@ class AboutIndexTests(TestCase):
 class AboutDetailTests(TestCase):
     def test_detail_page_has_text(self):
         """
-        An About detail page should have text on it
+        An About detail page should have title and body text on it
         """
-        test_page = create_page(title="test", body="test2")
+        test_page = create_page(title="Test Title", body="This is a test body.")
         # response = self.client.get(reverse('aboutdetail'))
         response = self.client.get(reverse('aboutdetail', args=(test_page.id,)))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "test")
+        self.assertContains(response, "Test Title")
+        self.assertContains(response, "This is a test body.")
 

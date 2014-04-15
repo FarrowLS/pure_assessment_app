@@ -2,6 +2,6 @@ The Pure Assessment App is a mobile friendly low stakes assessment web applicati
 
 This web app is build with the Python based Django framework on the back-end and uses the Twitter Bootstrap HTML5 framework for layout on the front-end. In its current form it should be consitered a high fidelity prototype. Bootstrap, first used to create responsive wireframes, has been added in a grey scale color scheme similar to the grey scale colors seen in Balsamiq and is meant to only convey functionality and not aesthetics. On the more technical side, the app has not been scaled but could be for example using RabbitMQ for queueing and Memcached for caching. 
 
-This app can be viewed at http://glacial-reaches-6970.herokuapp.com. (It may take a few moments for the app to resolve.) 
+This app can be viewed at http://glacial-reaches-6970.herokuapp.com. (It may take a few moments for the site to load.) 
 
  

@@ -1,0 +1,10 @@
+{% extends "base.html"  %}
+{% load staticfiles %}
+
+{% block title %}Access Denied{% endblock title %}
+
+{% block template-loading %}{{ block.super }}<p class="text-warning">about/index.html template loaded</p>{% endblock template-loading %}
+
+{% block body  %}
+You do not have access to this page.
+{% endblock body  %}

@@ -14,3 +14,4 @@ urlpatterns = patterns('',
     # For redirecting root url
     (r'^$', lambda r : HttpResponseRedirect('about/')),
 )
+

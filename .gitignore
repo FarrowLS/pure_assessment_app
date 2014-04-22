@@ -1,4 +1,7 @@
-/setting_information_not_for_git.txt
 *.pyc
-staticfiles
 *DS_Store
+*.swp
+/setting_information_not_for_git.txt
+db_dumps
+staticfiles
+

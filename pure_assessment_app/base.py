@@ -63,6 +63,13 @@ INSTALLED_APPS = (
     'about',
 )
 
+# Apps to exclude from South
+SOUTH_MIGRATION_MODULES = {'admin_honeypot': 'ignore',
+                           'allauth': 'ignore',
+                           # 'allauth.account': 'ignore',
+                           # 'allauth.socialaccount': 'ignore',
+                           'filer': 'ignore'}
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'pure_assessment_app.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     # Core/contrib paths
-    (r'^accounts/', include('allauth.urls')),
+    # allauth paths
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^admin/', include('admin_honeypot.urls')),
     url(r'^notanormaladminpath/', include(admin.site.urls)),
     # My paths

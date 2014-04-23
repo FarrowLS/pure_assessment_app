@@ -43,6 +43,11 @@
                     <li class="active"><a href="{% url 'aboutindex' %}">About</a></li>
                     <li><a href="#">Logout</a></li>
                 </ul>
+
+{% load account %}
+
+{% user_display user %}
+
             </div><!--/.nav-collapse -->
         </div>
     </div>

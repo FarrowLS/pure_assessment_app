@@ -1,5 +1,8 @@
-{# base.html #}
+{# paabase.html #}
+
 {% load staticfiles %}
+{% load url from future %}
+
 
 <!DOCTYPE html>
 
@@ -40,8 +43,14 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class=""><a href="/">Home</a></li>
-                    <li class="active"><a href="{% url 'aboutindex' %}">About</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li class=""><a href="{% url 'aboutindex' %}">About</a></li>                    
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+                        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+                    {% else %}
+                        <li><a href="{% url 'account_login' %}">Sign In</a></li>
+                        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+                    {% endif %}
                 </ul>
 
 {% load account %}
@@ -54,7 +63,6 @@
     <div class="container">
         <div class="app-template">
             <h4>{% block title  %}Pure Assessment App{% endblock title %}</h4>
-
             
             {% block template-loading %} 
                 <!-- <p class="text-warning">base.html template loaded</p>{% endblock template-loading %} -->

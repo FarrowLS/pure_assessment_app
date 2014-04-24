@@ -3,10 +3,17 @@
 {% load url from future %}
 {% load i18n %}
 
+<!--
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+-->
+
+<h4>{% block title  %}{% trans "Verify Your E-mail Address" %}{% endblock title %}</h4>
 
 {% block content %}
+
+<!--
 <h1>{% trans "Verify Your E-mail Address" %}</h1>
+-->
 
 {% url 'account_email' as email_url %}
 

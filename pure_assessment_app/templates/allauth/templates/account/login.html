@@ -4,11 +4,17 @@
 {% load account %}
 {% load url from future %}
 
+<!--
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
+-->
+
+<h4>{% block title  %}Sign In{% endblock title %}</h4>
 
 {% block content %}
 
-<h1>{% trans "Sign In" %}</h1>
+<!--
+<h4>{% trans "Sign In" %}</h4>
+-->
 
 {% if socialaccount.providers  %}
 <p>{% blocktrans with site.name as site_name %}Please sign in with one

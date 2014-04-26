@@ -142,6 +142,8 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+LOGIN_URL = '/accounts/login/'
+
 # auth and allauth settings for django-allauth from http://www.sarahhagstrom.com/2013/09/the-missing-django-allauth-tutorial/
 LOGIN_REDIRECT_URL = '/'
 # SOCIALACCOUNT_QUERY_EMAIL = True

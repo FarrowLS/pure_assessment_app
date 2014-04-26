@@ -1,5 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.test.client import Client
+from django.contrib.auth.models import User
 
 from about.models import Page
 
@@ -19,13 +21,20 @@ class AboutIndexTests(TestCase):
         self.assertContains(response, "Django")
 
 class AboutDetailTests(TestCase):
+    # Do access control test here self.assertEqual(response.status_code, 302)
+
     def test_detail_page_has_text(self):
         """
         An About detail page should have title and body text on it
         """
         test_page = create_page(title="Test Title", body="This is a test body.")
-        # response = self.client.get(reverse('aboutdetail'))
-        response = self.client.get(reverse('aboutdetail', args=(test_page.id,)))
+        test_user_setup = User.objects.create(username='bob', password='secret')
+        test_user = Client()
+        test_user.login(username='bob', password='secret')
+        # Don't think I need this # response = self.client.get(reverse('aboutdetail'))
+        # response = self.client.get(reverse('aboutdetail', args=(test_page.id,)))
+        response = test_user.get(reverse('aboutdetail', args=(test_page.id,)))
+
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test Title")
         self.assertContains(response, "This is a test body.")

@@ -28,7 +28,7 @@ class AboutDetailTests(TestCase):
         An About detail page should have title and body text on it
         """
         test_page = create_page(title="Test Title", body="This is a test body.")
-        test_user_setup = User.objects.create(username='bob', password='secret')
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
         test_user = Client()
         test_user.login(username='bob', password='secret')
         # Don't think I need this # response = self.client.get(reverse('aboutdetail'))

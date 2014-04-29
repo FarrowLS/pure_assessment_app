@@ -4,6 +4,17 @@ from .base import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+INSTALLED_APPS += (
+    'debug_toolbar',
+)
+
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 DATABASES = {
     'default': {
@@ -15,14 +26,3 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-
-# Static asset configuration - Moved to base.py settings file
-# import os
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# STATIC_ROOT = 'staticfiles'
-# STATIC_URL = '/static/'
-# 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# ) 

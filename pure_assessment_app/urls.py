@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 from django.http import HttpResponseRedirect
 
@@ -20,4 +21,10 @@ urlpatterns = patterns('',
     # For redirecting root url
     (r'^$', lambda r : HttpResponseRedirect('about/')),
 )
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    )
 

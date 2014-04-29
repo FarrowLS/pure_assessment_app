@@ -100,10 +100,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Template and static file section
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-# STATIC_URL = '/static/'
 
 # Added to allow template files to be served from multiple directories
 # http://stackoverflow.com/questions/11768143/heroku-cant-find-django-templates

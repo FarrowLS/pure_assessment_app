@@ -17,11 +17,12 @@ from django.contrib.auth import logout
 def index(request):
     raw_about_text = open("README", "r")
     about_text = raw_about_text.read()
-    if request.user.is_authenticated():
-        loggedinstatus = 'User is logged in'
-    else:
-        loggedinstatus = 'User is not logged in'
-    context = {'text1': loggedinstatus, 'text2': about_text,}
+    # if request.user.is_authenticated():
+    #     loggedinstatus = 'User is logged in'
+    # else:
+    #     loggedinstatus = 'User is not logged in'
+    about_page_list = Page.objects.order_by('title') 
+    context = {'text1': about_text, 'text2': about_page_list,}
     return render(request, 'about/index.html', context)    
    
 class DetailView(generic.DetailView):

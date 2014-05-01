@@ -12,13 +12,33 @@ def create_page(title, body):
     return Page.objects.create(title=title, body=body)
 
 class AboutIndexTests(TestCase):
+    def test_index_exists(self):
+        """
+        The About index page should be at /about
+        """
+        response = self.client.get(reverse('aboutindex'))
+        self.assertEqual(response.status_code, 200)
+
     def test_index_has_readme_text(self):
         """
         The About index page should be pulling in text from the README file 
         """
         response = self.client.get(reverse('aboutindex'))
-        self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Django")
+
+    def test_index_has_list_of_about_pages(self):
+        """
+        The About index page should show a list of About pages
+        """
+        test_page1 = create_page(title="Test1 Title", body="Test1 body.")
+        test_page2 = create_page(title="Test2 Title", body="Test2 body.")
+
+        response = self.client.get(reverse('aboutindex'))
+        self.assertQuerysetEqual(
+            response.context['text2'],
+             ['<Page: Test1 Title>', '<Page: Test2 Title>']
+        )
+
 
 class AboutDetailTests(TestCase):
     def test_detail_page_not_accessable(self):

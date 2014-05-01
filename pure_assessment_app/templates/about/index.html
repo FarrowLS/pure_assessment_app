@@ -7,10 +7,16 @@
 
 {% block body  %}
 
-<p>{{text1}}</p>
+{% if text1 %}
+    <p>{{text1}}</p>
+{% endif %}
 
 {% if text2 %}
-  <p>{{text2}}</p>
+    <h5>More infomation about the app</h5>
+    {% for page in text2 %}
+        <p><a href="/about/{{page.id}}/">{{page.title}}</a></p>
+    {% endfor %}
+<p><i>Update links with path name shortcut!!!</i></p>
 {% endif %}
 
 {% endblock body  %}

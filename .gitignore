@@ -5,4 +5,4 @@
 db_dumps
 staticfiles
 .coverage
-
+htmlcov

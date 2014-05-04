@@ -14,13 +14,12 @@ from about.models import Page
 
 from django.contrib.auth import logout
 
+# For testing if user is authenticated
+# if request.user.is_authenticated():
+
 def index(request):
     raw_about_text = open("README", "r")
     about_text = raw_about_text.read()
-    # if request.user.is_authenticated():
-    #     loggedinstatus = 'User is logged in'
-    # else:
-    #     loggedinstatus = 'User is not logged in'
     about_page_list = Page.objects.order_by('title') 
     context = {'text1': about_text, 'text2': about_page_list,}
     return render(request, 'about/index.html', context)    

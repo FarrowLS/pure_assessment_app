@@ -1,1 +1,8 @@
-# Add URL.py stuff!!!
+from django.conf.urls import patterns, url
+from django.contrib.auth.decorators import login_required
+
+from assessment import views
+
+urlpatterns = patterns('',
+    url(r'^$', login_required(views.index), name='assessmentindex'), # ex: /assessment/
+) 

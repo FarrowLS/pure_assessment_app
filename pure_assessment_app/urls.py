@@ -17,7 +17,8 @@ urlpatterns = patterns('',
     url(r'^notanormaladminpath/', include(admin.site.urls)),
     # My paths
     # url(r'^logout/', include('')),
-    url(r'^about/', include('about.urls')),
+    url(r'^about/', include('about.urls')), # about
+    url(r'^assessment/', include('assessment.urls')),  # assessment
     # For redirecting root url
     (r'^$', lambda r : HttpResponseRedirect('about/')),
 )

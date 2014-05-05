@@ -64,7 +64,15 @@
     <div class="container">
         <div class="app-template">
             <h4>{% block title  %}Pure Assessment App{% endblock title %}</h4>
-             
+
+            {% block breadcrumbstart %}
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+            {% endblock breadcrumbstart%}
+            {% block breadcrumbend %}
+                </ol> 
+            {% endblock breadcrumbend %}
+ 
             {% block template-loading %} 
                 <!-- <p class="text-warning">base.html template loaded</p>{% endblock template-loading %} -->
 

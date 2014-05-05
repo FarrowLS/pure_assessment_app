@@ -11,11 +11,19 @@
     <p class="text-warning">about/page_detail.html template loaded</p>
 {% endblock template-loading %}
 
+{% block breadcrumbstart %}
+    {{ block.super }}
+    <li><a href=" {% url 'aboutindex' %} ">About</a></li>
+    <li><a class="active" href="#">{% if page.title %}{{ page.title }}{% endif %}</a></li>
+{% endblock breadcrumbstart%}
+{% block breadcrumbend %}
+    {{ block.super }} 
+{% endblock breadcrumbend %}
+
 {% if page.body %}
     {% block body  %}
-        <ol class="breadcrumb">
-            <li><a href="{% url 'aboutindex' %}">About</a></li>
-        </ol>
+
         {{ page.body }}
+
     {% endblock body  %}
 {% endif %}

@@ -43,11 +43,11 @@ class AboutIndexTests(TestCase):
 class AboutDetailTests(TestCase):
     def test_detail_page_not_accessable(self):
         """
-        An About detail page shout not be accessable to an anonymous user
+        An About detail page should be accessable to an anonymous user
         """
         test_page = create_page(title="Secret Title", body="This is a secret body.") 
         response = self.client.get(reverse('aboutdetail', args=(test_page.id,)))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_detail_page_has_text(self):
         """

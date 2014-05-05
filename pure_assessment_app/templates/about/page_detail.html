@@ -13,6 +13,9 @@
 
 {% if page.body %}
     {% block body  %}
+        <ol class="breadcrumb">
+            <li><a href="{% url 'aboutindex' %}">About</a></li>
+        </ol>
         {{ page.body }}
     {% endblock body  %}
 {% endif %}

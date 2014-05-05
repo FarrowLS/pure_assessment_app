@@ -7,6 +7,10 @@
 
 {% block body  %}
 
+<ol class="breadcrumb">
+    <li><a href="{% url 'aboutindex' %}">About</a></li>
+</ol>
+
 {% if text1 %}
     <p>{{text1}}</p>
 {% endif %}

@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     # Start custom apps
     'about',
     'assessment',
+    'item',
 )
 
 MIDDLEWARE_CLASSES = (

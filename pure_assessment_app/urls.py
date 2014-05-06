@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+# from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseRedirect
 
@@ -18,7 +19,8 @@ urlpatterns = patterns('',
     # My paths
     # url(r'^logout/', include('')),
     url(r'^about/', include('about.urls')), # about
-    url(r'^assessment/', include('assessment.urls')),  # assessment
+    url(r'^assessments/', include('assessment.urls')),  # assessments
+    url(r'^items/', include('item.urls')),  # items
     # For redirecting root url
     (r'^$', lambda r : HttpResponseRedirect('about/')),
 )

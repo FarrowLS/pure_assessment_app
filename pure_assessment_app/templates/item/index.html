@@ -1,0 +1,21 @@
+{% extends "paabase.html" %}
+{% load staticfiles  %}
+
+{% block title %} Item Banks {% endblock title %}
+
+{% block breadcrumbstart %}
+    {{ block.super }}
+    <li><a href=" {% url 'itemindex' %} ">Items</a></li>
+{% endblock breadcrumbstart%}
+{% block breadcrumbend %}
+    {{ block.super }}
+{% endblock breadcrumbend %}
+
+
+{% block body %}
+
+{% if bodytext %}
+    <p>{{bodytext}}</p>
+{% endif %}
+
+{% endblock body %}

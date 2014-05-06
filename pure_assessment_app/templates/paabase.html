@@ -49,6 +49,7 @@
                     <li class=""><a href="/">Home</a></li>
                     <li class=""><a href="{% url 'aboutindex' %}">About</a></li>                    
                     {% if user.is_authenticated %}
+                        <!-- Add link to itemindex here  --> 
                         <li><a href="{% url 'assessmentindex' %}">Your Tests</a></li>
                         <!-- <li><a href="{% url 'account_email' %}">Change E-mail</a></li> -->
                         <li><a href="{% url 'account_logout' %}">Sign Out</a></li>

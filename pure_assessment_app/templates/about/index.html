@@ -20,9 +20,8 @@
 {% if text2 %}
     <h5>More infomation about the app</h5>
     {% for page in text2 %}
-        <p><a href="/about/{{page.id}}/">{{page.title}}</a></p>
+        <p><a href="{% url 'aboutdetail' page.id %}">{{page.title}}</a></p>
     {% endfor %}
-<p><i>Update links with path name shortcut!!!</i></p>
 {% endif %}
 
 {% endblock body  %}

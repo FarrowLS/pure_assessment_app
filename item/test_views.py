@@ -21,4 +21,4 @@ class ItemIndexTests(TestCase):
         test_user.login(username='bob', password='secret')
         response = test_user.get(reverse('itemindex'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Item Banks")
+        self.assertContains(response, "item banks goes here")

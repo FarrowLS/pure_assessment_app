@@ -14,8 +14,16 @@
 
 {% block body %}
 
-{% if bodytext %}
-    <p>{{bodytext}}</p>
+<h5>Current Item Banks - NOT IN USE!!!</h5>
+
+{% if itembank_list %}
+    <ul>
+    {% for itembank in itembank_list %}
+        <li>{{ itembank.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Currently there are no item banks.</p>
 {% endif %}
 
 {% endblock body %}

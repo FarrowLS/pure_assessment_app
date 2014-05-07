@@ -3,6 +3,8 @@ from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 
+from item.models import Itembank 
+
 class ItemIndexTests(TestCase):
     def test_index_can_not_be_seen_by_anonymous_user(self):
         """
@@ -10,7 +12,6 @@ class ItemIndexTests(TestCase):
         """
         response = self.client.get(reverse('itemindex'))
         self.assertEqual(response.status_code, 302)
-
 
     def test_index_exists(self):
         """
@@ -21,4 +22,6 @@ class ItemIndexTests(TestCase):
         test_user.login(username='bob', password='secret')
         response = test_user.get(reverse('itemindex'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "item banks goes here")
+        self.assertContains(response, "Current Item Banks")
+
+

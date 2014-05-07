@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     # url(r'^logout/', include('')),
     url(r'^about/', include('about.urls')), # about
     url(r'^assessments/', include('assessment.urls')),  # assessments
-    url(r'^items/', include('item.urls')),  # items
+    # NOT CURRENTLY IN USE # url(r'^items/', include('item.urls')),  # items
     # For redirecting root url
     (r'^$', lambda r : HttpResponseRedirect('about/')),
 )

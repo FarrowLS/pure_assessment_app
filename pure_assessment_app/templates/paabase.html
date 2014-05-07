@@ -49,7 +49,8 @@
                     <li class=""><a href="/">Home</a></li>
                     <li class=""><a href="{% url 'aboutindex' %}">About</a></li>
                     {% if user.is_staff %}
-                        <li><a href="{% url 'itemindex' %}">Item Banks</a></li>
+                        <!-- NOT IN USE <li><a href="#">Item Banks</a></li> -->
+                        <li><a href="/notanormaladminpath/">Author Items and Assesments</a></li>
                     {% endif %}
                     {% if user.is_authenticated %}
                         <!-- Add link to itemindex here  --> 

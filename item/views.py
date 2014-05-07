@@ -1,11 +1,12 @@
-from django.http import HttpResponse
+"""
+NOT IN USE - COMMENTED OUT
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 
-# from item.models 
+from item.models import Itembank
 
 def index(request):
-    # return HttpResponse("You're here on the items index page!")
-    index_text = "The list of item banks goes here"
-    context = {'bodytext': index_text,}
-    return render(request, 'item/index.html', context) 
+    itembank_list = Itembank.objects.order_by('name')
+    context = {'itembank_list': itembank_list,}
+    return render(request, 'item/index.html', context)
+""" 

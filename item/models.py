@@ -16,5 +16,6 @@ class Item(models.Model):
 class Option(models.Model):
     item = models.ForeignKey(Item)
     option_text = models.CharField(max_length=200)
+    correct_answer = models.BooleanField(default=False)
     def __unicode__(self):
         return self.option_text

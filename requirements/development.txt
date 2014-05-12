@@ -2,3 +2,4 @@
 
 coverage==3.7.1
 django-debug-toolbar==1.2
+django-sslserver==0.12

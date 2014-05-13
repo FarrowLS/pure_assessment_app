@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
+    'djangosecure',
     'admin_honeypot',
     # For django-allauth
     'django.contrib.sites',
@@ -71,6 +72,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
+    'djangosecure.middleware.SecurityMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -78,6 +82,12 @@ ROOT_URLCONF = 'pure_assessment_app.urls'
 
 WSGI_APPLICATION = 'pure_assessment_app.wsgi.application'
 
+# django-secure settings
+SECURE_SSL_REDIRECT = True    
+
+# Related security settings
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

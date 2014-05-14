@@ -17,8 +17,10 @@ MIDDLEWARE_CLASSES += (
 
 INTERNAL_IPS = ('127.0.0.1',)
 
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+# Local dev setting to make HTTPS work. See the following sites for details:
+# http://django-secure.readthedocs.org/en/v0.1.2/middleware.html#detecting-proxied-ssl
+# https://docs.djangoproject.com/en/1.6/ref/settings/#std:setting-SECURE_PROXY_SSL_HEADER
+SECURE_PROXY_SSL_HEADER = ('HTTP_HOST', 'localhost:8000')
 
 DATABASES = {
     'default': {

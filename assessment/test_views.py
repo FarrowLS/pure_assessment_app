@@ -10,7 +10,7 @@ class AssessmentIndexTests(TestCase):
         """
         The Assessment index page should be behind the login
         """
-        response = self.client.get(reverse('assessmentindex'))
+        response = self.client.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 302)
 
 
@@ -21,6 +21,6 @@ class AssessmentIndexTests(TestCase):
         test_user_setup = User.objects.create_user(username='bob', password='secret')
         test_user = Client()
         test_user.login(username='bob', password='secret')  
-        response = test_user.get(reverse('assessmentindex'))
+        response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Your tests")

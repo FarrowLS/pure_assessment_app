@@ -67,14 +67,12 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'djangosecure.middleware.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-
-    'djangosecure.middleware.SecurityMiddleware',
-
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -83,7 +81,7 @@ ROOT_URLCONF = 'pure_assessment_app.urls'
 WSGI_APPLICATION = 'pure_assessment_app.wsgi.application'
 
 # django-secure settings
-SECURE_SSL_REDIRECT = True    
+# SECURE_SSL_REDIRECT = True    
 
 # Related security settings
 SESSION_COOKIE_SECURE = True

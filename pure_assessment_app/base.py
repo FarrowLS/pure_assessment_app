@@ -85,6 +85,7 @@ WSGI_APPLICATION = 'pure_assessment_app.wsgi.application'
 SECURE_SSL_REDIRECT = True    
 SECURE_HSTS_SECONDS = 3600
 SECURE_FRAME_DENY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Related security settings
 SESSION_COOKIE_SECURE = True

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from item.models import Itembank, Item, Option
 
+from itembank.models import Itembank, Item, Option
 
 class OptionInline(admin.TabularInline):
     model = Option
@@ -13,14 +13,6 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = ['stem_text']
     inlines = [OptionInline]
 
-# class ItemInline(admin.StackedInline):
-#     model = Item
-#     extra = 0
-
-# class ItembankAdmin(admin.ModelAdmin):
-#     inlines = [ItemInline]
-
 admin.site.register(Itembank)
 admin.site.register(Item, ItemAdmin) 
-# admin.site.register(Option)
 

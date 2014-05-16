@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from item.models import Itembank
+from itembank.models import Itembank
 
 def create_itembank(name):
     """

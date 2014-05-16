@@ -3,7 +3,7 @@ NOT IN USE - COMMENTED OUT
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 
-from item.models import Itembank
+from itembank.models import Itembank
 
 def index(request):
     itembank_list = Itembank.objects.order_by('name')

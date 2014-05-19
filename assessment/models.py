@@ -1,16 +1,23 @@
-# assessment/models.py
-
+# from django.conf import settings
 from django.db import models
-# IMPORT USER INFO from django.db import models
+
+from model_utils.models import TimeStampedModel, StatusModel
+from model_utils import Choices 
 
 from itembank.models import Itembank
 
-"""
-class Assessment(models.Model):
+class Assessment(TimeStampedModel, StatusModel):
     itembank = models.ForeignKey(Itembank)
-    # SHOULD I USE THIS OR USE django-model-utils INSTEAD? created = models.DateTimeField(auto_now_add=True)
-    # USER RELATIONSHIP testee = models.[?]ForeignKey[?](settings.AUTH_USER_MODEL)
-    # NUMBER OF ITEMS
-    # NUMBER OF CORRECT ITEMS NEEDED TO PASS
-"""
+    itemsneeded = models.IntegerField('number of items in assessment', default = 1) 
+    itemsneededtopass = models.IntegerField('number of items needed to pass the assessment', default = 1)
+    STATUS = Choices('active', 'inactive')
+
+'''
+class Assessment(TimeStampedModel, StatusModel):
+    itembank = models.ForeignKey(Itembank)
+    testee = models.OneToOneField(settings.AUTH_USER_MODEL)
+    itemsneeded = models.IntegerField('number of items in assessment', default = 1)
+    itemsneededtopass = models.IntegerField('number of items needed to pass the assessment', default = 1)
+    STATUS = Choices('not-started', 'started', 'finished')
+'''
 

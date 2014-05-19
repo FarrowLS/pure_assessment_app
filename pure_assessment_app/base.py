@@ -62,8 +62,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount', 
     # Start custom apps
     'about',
-    'assessment',
-    # 'item', 
+    'assessment', 
     'itembank',
 )
 

@@ -1,8 +1,13 @@
 from django.db import models
 
-class Itembank(models.Model):
+from model_utils.models import TimeStampedModel
+from model_utils.fields import StatusField
+from model_utils import Choices
+
+class Itembank(TimeStampedModel):
     name = models.CharField(max_length=200)
-    active = models.BooleanField(default=True)
+    STATUS = Choices('active', 'inactive')
+    status = StatusField()
     def __unicode__(self):
         return self.name 
 

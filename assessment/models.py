@@ -12,7 +12,8 @@ class Assessment(TimeStampedModel):
     name = models.CharField(max_length=200)
     itemsneeded = models.IntegerField('number of items in assessment', default = 1) 
     itemsneededtopass = models.IntegerField('number of items needed to pass the assessment', default = 1)
-    # STATUS = Choices('active', 'inactive')
+    STATUS = Choices('active', 'inactive')
+    status = StatusField()
     def __unicode__(self):
         return self.name
 

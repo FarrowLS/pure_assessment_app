@@ -25,7 +25,14 @@
 {% endif %}
 
 <h5>Completed Tests</h5>
-<p>Test1 with some info...</p>
-<p>Test2 with some info...</p>
+{% if finished_assesments_list %}
+    <ul>
+    {% for assessment in finished_assesments_list %}
+        <li>{{assessment.name}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not completed any tests yet.</p>
+{% endif %}
 
 {% endblock body %}

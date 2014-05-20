@@ -14,8 +14,8 @@ class OptionInline(admin.TabularInline):
 
 class ItemAdmin(admin.ModelAdmin):
     list_filter = ('itembank',)
-    list_display = ('stem_text', 'itembank', 'active',)
-    fields = ['itembank', 'stem_text', 'active'] # 'status']
+    list_display = ('stem_text', 'itembank', 'status',) # removed 'active'
+    fields = ['itembank', 'stem_text', 'status'] # removed 'active'
     search_fields = ['stem_text']
     inlines = [OptionInline]
 

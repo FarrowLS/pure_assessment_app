@@ -11,10 +11,12 @@ class Itembank(TimeStampedModel):
     def __unicode__(self):
         return self.name 
 
-class Item(models.Model):
+class Item(TimeStampedModel):
     itembank = models.ForeignKey(Itembank)
-    active = models.BooleanField(default=True)
     stem_text = models.CharField(max_length=200)
+    STATUS = Choices('active', 'inactive')
+    status = StatusField()
+    # stem_text = models.CharField(max_length=200)
     def __unicode__(self):
         return self.stem_text
 

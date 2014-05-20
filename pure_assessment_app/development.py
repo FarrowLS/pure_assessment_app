@@ -5,6 +5,7 @@ from .base import *
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
+SOUTH_TESTS_MIGRATE = False
 
 INSTALLED_APPS += (
     'debug_toolbar',

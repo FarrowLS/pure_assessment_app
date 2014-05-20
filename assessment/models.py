@@ -1,4 +1,4 @@
-# from django.conf import settings
+from django.conf import settings
 from django.db import models
 
 from model_utils.models import TimeStampedModel
@@ -8,7 +8,7 @@ from model_utils import Choices
 from itembank.models import Itembank
 
 class Assessment(TimeStampedModel):
-    # itembank = models.ForeignKey(Itembank)
+    itembank = models.ForeignKey('itembank.Itembank')
     name = models.CharField(max_length=200)
     itemsneeded = models.IntegerField('number of items in assessment', default = 1) 
     itemsneededtopass = models.IntegerField('number of items needed to pass the assessment', default = 1)

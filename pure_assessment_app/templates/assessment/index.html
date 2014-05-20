@@ -14,8 +14,14 @@
 {% block body %}
 
 <h5>Tests to Complete</h5>
-{% if text1 %}
-    <p>{{text1}}</p>
+{% if active_assesments_list %}
+    <ul>
+    {% for assessment in active_assesments_list %}
+        <li>{{assessment.name}}</li> 
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You do not have any tests to complete at this time.</p>
 {% endif %}
 
 <h5>Completed Tests</h5>

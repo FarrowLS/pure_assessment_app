@@ -17,11 +17,11 @@ class Assessment(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-'''
 class TesteeAssessment(TimeStampedModel):
     assessment = models.ForeignKey(Assessment)
     testee = models.ForeignKey(settings.AUTH_USER_MODEL)
     STATUS = Choices('not-started', 'started', 'passed', 'failed')
     status = StatusField()
-'''
+    # def __unicode__(self):
+    #     return self.assessment
 

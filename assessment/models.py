@@ -18,11 +18,10 @@ class Assessment(TimeStampedModel):
         return self.name
 
 '''
-class Assessment(TimeStampedModel, StatusModel):
-    itembank = models.ForeignKey(Itembank)
-    testee = models.OneToOneField(settings.AUTH_USER_MODEL)
-    itemsneeded = models.IntegerField('number of items in assessment', default = 1)
-    itemsneededtopass = models.IntegerField('number of items needed to pass the assessment', default = 1)
-    STATUS = Choices('not-started', 'started', 'finished')
+class TesteeAssessment(TimeStampedModel):
+    assessment = models.ForeignKey(Assessment)
+    testee = models.ForeignKey(settings.AUTH_USER_MODEL)
+    STATUS = Choices('not-started', 'started', 'passed', 'failed')
+    status = StatusField()
 '''
 

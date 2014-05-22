@@ -22,6 +22,6 @@ class TesteeAssessment(TimeStampedModel):
     testee = models.ForeignKey(settings.AUTH_USER_MODEL)
     STATUS = Choices('not-started', 'started', 'passed', 'failed')
     status = StatusField()
-    # def __unicode__(self):
-    #     return self.assessment
+    def __unicode__(self):
+        return self.assessment.name
 

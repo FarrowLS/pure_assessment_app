@@ -4,7 +4,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 
 from itembank.models import Itembank
-from assessment.models import Assessment
+from assessment.models import Assessment, TesteeAssessment
 
 def create_itembank(name):
     """
@@ -17,6 +17,12 @@ def create_assessment(name, itembank):
     Creates a test with a name and relationship to itembank
     """
     return Assessment.objects.create(name=name, itembank=itembank)
+
+def create_testeeassessment(assessment, testee):
+    """
+    Creates a testeeassessment with a relationship to an assessment and testee
+    """
+    return TesteeAssessment.objects.create(assessment=assessment, testee=testee)   
 
 class AssessmentIndexTests(TestCase):
     def test_index_can_not_be_seen_by_anonymous_user(self):
@@ -45,6 +51,7 @@ class AssessmentIndexTests(TestCase):
         test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
         test_user_setup = User.objects.create_user(username='bob', password='secret')
         test_user = Client()
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup) 
         test_user.login(username='bob', password='secret')  
         response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)

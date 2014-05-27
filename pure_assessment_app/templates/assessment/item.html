@@ -14,13 +14,18 @@
 
 {% block body %}
 
-{% if item %}    
+{% if item %}   
+<form action="{% url 'assessmentresponse' %}" method="post">
+{% csrf_token %} 
     <strong>{{ item }}</strong>
-    <ul>
     {% for option in item.option_set.all %}
-        <li> {{ option.option_text }} </li>
+        <div>
+            <input id="option{{ forloop.counter }}" name="option" type="radio" value"{{ option.id }}" /> 
+            <label for="option{{ forloop.counter }}">{{ option.option_text }} </label>
+        </div>
     {% endfor %}    
-    </ul>
+    <input type="submit" value="Submit">
+</form>
 {% endif %}
 
 {% endblock body %}

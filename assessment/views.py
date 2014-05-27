@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
+from itembank.models import Item
 from assessment.models import TesteeAssessment
 
 def index(request):
@@ -12,7 +13,8 @@ def index(request):
 
 def item(request):
     body_text = "You are at an assessment item page!"
-    # item = get_object_or_404()
-    context = {'body_text': body_text}
+    item = get_object_or_404(Item, pk=1)
+    context = {'body_text': body_text,
+               'item': item,}
     return render(request, 'assessment/item.html', context)
     # return HttpResponse("You are at an assessment item page!")

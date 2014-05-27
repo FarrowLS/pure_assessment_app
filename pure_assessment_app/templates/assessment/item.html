@@ -13,5 +13,11 @@
 {% endblock breadcrumbend %}
 
 {% block body %}
-  {{body_text}}
+
+{{ body_text }}
+
+{% if item %}    
+    {{ item }}
+{% endif %}
+
 {% endblock body %}

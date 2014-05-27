@@ -78,8 +78,11 @@
                 </ol> 
             {% endblock breadcrumbend %}
  
-            {% block template-loading %} 
-                <!-- <p class="text-warning">base.html template loaded</p>{% endblock template-loading %} -->
+            {% block messages %}
+                {% if error_message %} 
+                    <p class="alert alert-danger"> {{ error_message }} </p>
+                {% endif %}
+            {% endblock messages %}
 
             {% block body  %}
 

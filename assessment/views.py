@@ -9,4 +9,10 @@ def index(request):
     context = {'active_assesments_list': active_assesments_list, 
                'finished_assesments_list': finished_assesments_list,}  
     return render(request, 'assessment/index.html', context)
-    # return HttpResponse("You are at assessment index!")
+
+def item(request):
+    body_text = "You are at an assessment item page!"
+    # item = get_object_or_404()
+    context = {'body_text': body_text}
+    return render(request, 'assessment/item.html', context)
+    # return HttpResponse("You are at an assessment item page!")

@@ -14,10 +14,13 @@
 
 {% block body %}
 
-{{ body_text }}
-
 {% if item %}    
-    {{ item }}
+    <strong>{{ item }}</strong>
+    <ul>
+    {% for option in item.option_set.all %}
+        <li> {{ option.option_text }} </li>
+    {% endfor %}    
+    </ul>
 {% endif %}
 
 {% endblock body %}

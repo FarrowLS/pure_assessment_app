@@ -12,9 +12,11 @@ def index(request):
     return render(request, 'assessment/index.html', context)
 
 def item(request):
-    body_text = "You are at an assessment item page!"
+    # body_text = "You are at an assessment item page!"
     item = get_object_or_404(Item, pk=1)
-    context = {'body_text': body_text,
+    context = { # 'body_text': body_text,
                'item': item,}
     return render(request, 'assessment/item.html', context)
-    # return HttpResponse("You are at an assessment item page!")
+
+def response(request):
+    return HttpResponse("You are at an assessment item response page!")

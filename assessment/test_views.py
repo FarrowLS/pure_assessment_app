@@ -70,4 +70,4 @@ class AssessmentIndexTests(TestCase):
 
     # TO BE ADDED def test_completed_assesments(self): 
 
- 
+    # TO BE ADDED def test_item_display(self): 

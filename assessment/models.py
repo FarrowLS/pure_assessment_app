@@ -5,7 +5,7 @@ from model_utils.models import TimeStampedModel
 from model_utils.fields import StatusField
 from model_utils import Choices 
 
-from itembank.models import Itembank
+from itembank.models import Itembank, Item
 
 class Assessment(TimeStampedModel):
     itembank = models.ForeignKey('itembank.Itembank')
@@ -25,3 +25,8 @@ class TesteeAssessment(TimeStampedModel):
     def __unicode__(self):
         return self.assessment.name
 
+class TesteeResponse(TimeStampedModel):
+    item = models.ForeignKey(Item) 
+    testeeassessment = models.ForeignKey(TesteeAssessment)
+    STATUS = Choices('started', 'correct', 'incorrect')
+    status = StatusField() 

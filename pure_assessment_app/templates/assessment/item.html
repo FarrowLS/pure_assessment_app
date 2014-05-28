@@ -16,7 +16,7 @@
 
 {% if item %}   
 <form action="{% url 'assessmentresponse' %}" method="post">
-{% csrf_token %} 
+    {% csrf_token %} 
     <strong>{{ item }}</strong>
     {% for option in item.option_set.all %}
         <div>

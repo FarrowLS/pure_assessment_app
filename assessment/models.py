@@ -28,6 +28,6 @@ class TesteeAssessment(TimeStampedModel):
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)
     item = models.ForeignKey(Item)
-    option = models.ForeignKey(Option, blank=True) 
+    option = models.ForeignKey(Option, null=True, blank=True) 
     # STATUS = Choices('started', 'correct', 'incorrect')
     # status = StatusField() 

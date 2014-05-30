@@ -57,6 +57,21 @@ class AssessmentIndexTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test1")
 
+    def test_no_active_assesments_from_other_user(self):
+        """
+        The assessment index page should not have active assessments from other users
+        """
+        test_itembank1 = create_itembank(name="Itembank1")
+        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        test_user_setup2 = User.objects.create_user(username='joe', password='secret')
+        test_user = Client()
+        test_user.login(username='joe', password='secret')
+        response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Test1")
+
     def test_no_completed_assesments(self):
         """
         The Assessment page should indicate there are no completed assessments
@@ -70,4 +85,6 @@ class AssessmentIndexTests(TestCase):
 
     # TO BE ADDED def test_completed_assesments(self): 
 
-    # TO BE ADDED def test_item_display(self): 
+    # TO BE ADDED def test_item_display(self):
+
+    # TO BE ADDED def test_no_completed_assesments_from_other_user(self): 

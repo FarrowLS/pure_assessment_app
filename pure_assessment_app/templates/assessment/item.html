@@ -6,7 +6,7 @@
 {% block breadcrumbstart %}
     {{ block.super }}
     <li><a href=" {% url 'assessmentindex' %} ">Tests</a></li>
-    <li><a href=" {% url 'assessmentitem' %} ">Current Question</a></li>
+    <li><a href=" {% url 'assessmentitem' item.id %} ">Current Question</a></li>
 {% endblock breadcrumbstart%}
 {% block breadcrumbend %}
     {{ block.super }}

@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.core.exceptions import PermissionDenied
+import random
 
 from itembank.models import Item
 from assessment.models import TesteeAssessment
@@ -12,13 +14,24 @@ def index(request):
     return render(request, 'assessment/index.html', context)
     # Rebuild as a CBV down the road
 
-# REBUILD AS CBV
-def item(request, assessment_id):
-    # body_text = "You are at an assessment item page!"
-    item = get_object_or_404(Item, pk=1)
-    context = { # 'body_text': body_text,
-               'item': item,}
-    return render(request, 'assessment/item.html', context)
+def item(request, testeeassessment_id):
+    current_testee_assessment = get_object_or_404(TesteeAssessment, pk=testeeassessment_id)
+    if not current_testee_assessment.testee == request.user:
+        raise PermissionDenied
+    else:
 
+        # TEST TO SEE IF THERE IS A TesteeResponse WITH NO SET option. IF SO SERVE THAT ITEM
+
+        # Add try/except here
+        current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank)
+        random_item_position = random.randint(0, len(current_items) - 1) 
+        item = current_items[random_item_position]
+        context = {'item': item,}
+
+        # CREATE NEW TesteeResponse WITH NO SET option
+
+        return render(request, 'assessment/item.html', context)
+        # Rebuild as a CBV down the road
+        
 def response(request):
     return HttpResponse("You are at an assessment item response page!")

@@ -4,7 +4,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 
 from itembank.models import Itembank, Item, Option
-from assessment.models import Assessment, TesteeAssessment
+from assessment.models import Assessment, TesteeAssessment, TesteeResponse
 
 def create_itembank(name):
     """
@@ -32,9 +32,15 @@ def create_option(item, option_text, correct_answer):
 
 def create_testeeassessment(assessment, testee):
     """
-    Creates a testeeassessment with a relationship to an assessment and testee
+    Creates a testee assessment with a relationship to an assessment and testee
     """
     return TesteeAssessment.objects.create(assessment=assessment, testee=testee)   
+
+def create_testeeresponse(testeeassessment, item, option=None):
+    """
+    Creates a testee response with a relationship to a testee response, item and maybee and option
+    """
+    return TesteeResponse.objects.create(testeeassessment=testeeassessment, item=item, option=option)
 
 class AssessmentIndexTests(TestCase):
     def test_index_can_not_be_seen_by_anonymous_user(self):
@@ -141,7 +147,27 @@ class AssessmentItemTests(TestCase):
         test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
         test_user = Client()
         test_user.login(username='bob', password='secret')
+        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Test stem text1")
 
+    def test_assessment_unanswered_item_will_be_served(self):
+        """
+        Unanswered items should be served until answered
+        """
+        test_itembank1 = create_itembank(name="Itembank1")
+        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
+        test_option1_1 = create_option(item=test_item1, option_text="True", correct_answer=True)
+        test_option1_2 = create_option(item=test_item1, option_text="False", correct_answer=False)
+        test_item2 = create_item(itembank=test_itembank1, stem_text="Test stem text2")
+        test_option2_1 = create_option(item=test_item2, option_text="True", correct_answer=True)
+        test_option2_2 = create_option(item=test_item2, option_text="False", correct_answer=False)
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1)
+        test_user = Client()
+        test_user.login(username='bob', password='secret')
         response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test stem text1")

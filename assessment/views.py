@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 import random
 
 from itembank.models import Item
-from assessment.models import TesteeAssessment
+from assessment.models import TesteeAssessment, TesteeResponse
 
 def index(request):
     active_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).exclude(status='passed').exclude(status='failed') 
@@ -21,11 +21,15 @@ def item(request, testeeassessment_id):
     else:
 
         # TEST TO SEE IF THERE IS A TesteeResponse WITH NO SET option. IF SO SERVE THAT ITEM
-
-        # Add try/except here
-        current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank)
-        random_item_position = random.randint(0, len(current_items) - 1) 
-        item = current_items[random_item_position]
+        unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True)
+        if len(unanswered_items) > 0:
+            item = get_object_or_404(Item, pk=unanswered_items[0].item_id) # get_object_or_404(Poll, pk=poll_id)
+        else:       
+            # Add try/except here
+            current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank)
+            random_item_position = random.randint(0, len(current_items) - 1) 
+            item = current_items[random_item_position]
+        
         context = {'item': item,}
 
         # CREATE NEW TesteeResponse WITH NO SET option

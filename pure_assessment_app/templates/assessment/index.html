@@ -17,7 +17,7 @@
 {% if active_assesments_list %}
     <ul>
     {% for assessment in active_assesments_list %}
-        <li>{{assessment.assessment.name}}</li> 
+        <li><a href="{%url 'assessmentitem' assessment.id %}">{{assessment.assessment.name}}</a></li> 
     {% endfor %}
     </ul>
 {% else %}

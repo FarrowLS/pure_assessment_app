@@ -57,7 +57,7 @@ class AssessmentIndexTests(TestCase):
 
     def test_active_assesments(self):
         """
-        The assessment index page should have a list of active assessments when they exist
+        The assessment index page should have a list of active assessments, as links to the assessments, when they exist
         """
         test_itembank1 = create_itembank(name="Itembank1")
         test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
@@ -68,6 +68,7 @@ class AssessmentIndexTests(TestCase):
         response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test1")
+        self.assertContains(response, '<a href="/assessments/1/">') # Checks links to assessments
 
     def test_no_active_assesments_from_other_user(self):
         """

@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 
-from itembank.models import Itembank
+from itembank.models import Itembank, Item, Option
 from assessment.models import Assessment, TesteeAssessment
 
 def create_itembank(name):
@@ -17,6 +17,18 @@ def create_assessment(name, itembank):
     Creates a test with a name and relationship to itembank
     """
     return Assessment.objects.create(name=name, itembank=itembank)
+
+def create_item(itembank, stem_text):
+    """
+    Creates an item with stem text and relationship to an itembank
+    """
+    return Item.objects.create(itembank=itembank, stem_text=stem_text)
+
+def create_option(item, option_text, correct_answer):
+    """
+    Creates an item with stem text and relationship to an itembank
+    """
+    return Option.objects.create(item=item, option_text=option_text, correct_answer=correct_answer) 
 
 def create_testeeassessment(assessment, testee):
     """
@@ -99,4 +111,36 @@ class AssessmentItemTests(TestCase):
         test_user_setup = User.objects.create_user(username='bob', password='secret')
         test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
         response = self.client.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
-        self.assertEqual(response.status_code, 302) 
+        self.assertEqual(response.status_code, 302)
+
+    def test_assessment_item_can_not_be_seen_by_user_who_is_not_the_testee(self):
+        """
+        The assessment item should not be able to be seen by a user who is not the testee
+        """
+        test_itembank1 = create_itembank(name="Itembank1")
+        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        test_user_setup2 = User.objects.create_user(username='joe', password='secret')
+        test_user = Client()
+        test_user.login(username='joe', password='secret')
+        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 403) 
+
+    def test_assessment_item_can_be_seen_by_testee(self):
+        """
+        An assessment item page should be seen by testee
+        """
+        test_itembank1 = create_itembank(name="Itembank1")
+        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
+        test_option1 = create_option(item=test_item1, option_text="True", correct_answer=True)
+        test_option2 = create_option(item=test_item1, option_text="False", correct_answer=False) 
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        test_user = Client()
+        test_user.login(username='bob', password='secret')
+
+        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Test stem text1")

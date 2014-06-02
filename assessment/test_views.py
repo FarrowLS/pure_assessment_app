@@ -87,4 +87,16 @@ class AssessmentIndexTests(TestCase):
 
     # TO BE ADDED def test_item_display(self):
 
-    # TO BE ADDED def test_no_completed_assesments_from_other_user(self): 
+    # TO BE ADDED def test_no_completed_assesments_from_other_user(self):
+
+class AssessmentItemTests(TestCase):
+    def test_assessment_item_can_not_be_seen_by_anonymous_user(self):
+        """
+        An assessment item page should be behind the login
+        """
+        test_itembank1 = create_itembank(name="Itembank1")
+        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        response = self.client.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 302) 

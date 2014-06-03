@@ -6,7 +6,7 @@
 {% block breadcrumbstart %}
     {{ block.super }}
     <li><a href=" {% url 'assessmentindex' %} ">Tests</a></li>
-    <li><a href=" {% url 'assessmentitem' item.id %} ">Current Question</a></li>
+    <li><a href=" {# % url 'assessmentitem' item.id % #} ">Current Question</a></li>
 {% endblock breadcrumbstart%}
 {% block breadcrumbend %}
     {{ block.super }}
@@ -15,12 +15,12 @@
 {% block body %}
 
 {% if item %}   
-<form action="{% url 'assessmentresponse' %}" method="post">
+<form action="{% url 'assessmentresponse' testee_response_id %}" method="post">
     {% csrf_token %} 
     <strong>{{ item }}</strong>
     {% for option in item.option_set.all %}
         <div>
-            <input id="option{{ forloop.counter }}" name="option" type="radio" value"{{ option.id }}" /> 
+            <input id="option{{ forloop.counter }}" name="option" type="radio" value="{{ option.id }}" /> 
             <label for="option{{ forloop.counter }}">{{ option.option_text }} </label>
         </div>
     {% endfor %}    

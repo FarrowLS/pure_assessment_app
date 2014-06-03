@@ -171,3 +171,25 @@ class AssessmentItemTests(TestCase):
         response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test stem text1")
+    
+    # New test
+    def test_assessment_answered_item_should_not_be_served(self):
+        """
+        Answered items should not be served
+        """
+        test_itembank1 = create_itembank(name="Itembank1")
+        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
+        test_option1_1 = create_option(item=test_item1, option_text="True", correct_answer=True)
+        test_option1_2 = create_option(item=test_item1, option_text="False", correct_answer=False)
+        test_item2 = create_item(itembank=test_itembank1, stem_text="Test stem text2")
+        test_option2_1 = create_option(item=test_item2, option_text="True", correct_answer=True)
+        test_option2_2 = create_option(item=test_item2, option_text="False", correct_answer=False)
+        test_user_setup = User.objects.create_user(username='bob', password='secret')
+        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1, test_option1_1)
+        test_user = Client()
+        test_user.login(username='bob', password='secret')
+        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Test stem text2")    

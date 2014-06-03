@@ -24,13 +24,22 @@ def item(request, testeeassessment_id):
     else:
         unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True) 
         if len(unanswered_items) > 0:
-            item = get_object_or_404(Item, pk=unanswered_items[0].item_id) # get_object_or_404(Poll, pk=poll_id)
+            item = get_object_or_404(Item, pk=unanswered_items[0].item_id) 
             testee_response_id = unanswered_items[0].id        
-        else:       
+        else: 
             # Add try/except here
             current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank)
-            random_item_position = random.randint(0, len(current_items) - 1)         
-            item = current_items[random_item_position]        
+            # Make sure item has not been presented before
+            item_approved = False            
+            answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id) 
+            answered_and_unanswered_items_ids = []
+            for item_id in answered_and_unanswered_items:
+                answered_and_unanswered_items_ids.extend([item_id]) 
+            while item_approved == False:
+                random_item_position = random.randint(0, len(current_items) - 1)         
+                item = current_items[random_item_position]        
+                if not item.id in answered_and_unanswered_items_ids:
+                    item_approved = True  
             new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 
             new_testee_response.save()        
             testee_response_id = new_testee_response.id
@@ -40,4 +49,11 @@ def item(request, testeeassessment_id):
         # Rebuild as a CBV down the road
         
 def response(request, testee_response_id):
+    current_testee_response = get_object_or_404(TesteeResponse, testee_response_id)
+    """
+    try:
+        selected_option = 
+    except (): 
+    # CHECK TO SEE IF ASSESSMENT IS FINISHED 
+    """
     return HttpResponse(request.POST['option'])

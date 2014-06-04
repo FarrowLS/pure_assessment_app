@@ -68,4 +68,5 @@ def response(request, testee_response_id):
 
 
         # CHECK TO SEE IF ASSESSMENT IS FINISHED 
-        return HttpResponse(request.POST['option'])
+        # return HttpResponse(request.POST['option'])
+        return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,)))

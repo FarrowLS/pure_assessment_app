@@ -5,7 +5,7 @@ from django.core.exceptions import PermissionDenied
 import random
 
 from itembank.models import Item, Option
-from assessment.models import TesteeAssessment, TesteeResponse
+from assessment.models import Assessment, TesteeAssessment, TesteeResponse
 
 def index(request):
     active_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).exclude(status='passed').exclude(status='failed') 
@@ -20,6 +20,17 @@ def item(request, testeeassessment_id):
     if not current_testee_assessment.testee == request.user:
         raise PermissionDenied
     else:
+
+        # get number of current answered items
+        answered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).exclude(option__isnull=True)
+        # get number of items needed for assessment
+        # compare these numbers to see if the assessment is complete - if necessary number are complete, mark assessment as complete and send to assessment index page
+        if current_testee_assessment.assessment.itemsneeded <= len(answered_items):
+            current_testee_assessment.status = 'passed' # TO BE UPDATED
+            return HttpResponse('You are done!')
+            # return HttpResponseRedirect(reverse('assessmentindex',))        
+
+
         unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True) 
         if len(unanswered_items) > 0:
             item = get_object_or_404(Item, pk=unanswered_items[0].item_id) 
@@ -69,18 +80,32 @@ def response(request, testee_response_id):
     try:
         selected_option = Option.objects.get(pk=request.POST['option']) 
     except (KeyError, Option.DoesNotExist):
+
+        # FOR TESTING - TO BE REMOVED
         """
         item = get_object_or_404(Item, pk=current_testee_response.item_id)
         context = {'item': item, 
                    'error_messge': "Please select an answer."} 
         return render(request, 'assessment/item.html', context)
         """
+        # FOR TESTING - TO BE REMOVED
+
         return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,))) 
+
     else:
         current_testee_response.option_id = selected_option.id
         current_testee_response.save()
 
+        """
+        # MOVING COMPLETION CHECK TO BEGINING OF ITEM DISPLAY ABOVE 
+        number_of_completed_items = TesteeResponse.objects.all().filter(testeeassessment=current_testee_response.testeeassessment).exclude(option__isnull=True)
+        current_assessment = get_object_or_404(Assessment, current_testee_response.testeeassessment.assessment_id)
+        """
 
-        # CHECK TO SEE IF ASSESSMENT IS FINISHED 
-        # return HttpResponse(request.POST['option'])
+        # if current_assessment.itemsneeded >= len(number_of_completed_items):
+        #     return HttpResponseRedirect(reverse('assessmentindex'))        
+
+        # REMOVE THIS NOTE - CHECK TO SEE IF ASSESSMENT IS FINISHED 
+
+        # return HttpResponse(current_assessment.itemsneeded)
         return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,)))

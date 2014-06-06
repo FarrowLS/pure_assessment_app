@@ -26,7 +26,12 @@ def item(request, testeeassessment_id):
         # get number of items needed for assessment
         # compare these numbers to see if the assessment is complete - if necessary number are complete, mark assessment as complete and send to assessment index page
         if current_testee_assessment.assessment.itemsneeded <= len(answered_items):
-            current_testee_assessment.status = 'passed' # TO BE UPDATED
+            number_of_correct_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__correct_answer=True)
+            if len(number_of_correct_items) >= current_testee_assessment.assessment.itemsneededtopass:
+                current_testee_assessment.status = 'passed'
+            else:
+                current_testee_assessment.status = 'failed'
+            current_testee_assessment.save() 
             return HttpResponse('You are done!')
             # return HttpResponseRedirect(reverse('assessmentindex',))        
 

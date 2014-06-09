@@ -13,7 +13,6 @@ def index(request):
     context = {'active_assesments_list': active_assesments_list, 
                'finished_assesments_list': finished_assesments_list,}  
     return render(request, 'assessment/index.html', context)
-    # Rebuild as a CBV down the road
 
 def item(request, testeeassessment_id):    
     current_testee_assessment = get_object_or_404(TesteeAssessment, pk=testeeassessment_id)
@@ -78,7 +77,6 @@ def item(request, testeeassessment_id):
                    # 'testdata1': answered_and_unanswered_items_ids,}      
 
         return render(request, 'assessment/item.html', context)
-        # Rebuild as a CBV down the road
         
 def response(request, testee_response_id):
     current_testee_response = get_object_or_404(TesteeResponse, pk=testee_response_id)

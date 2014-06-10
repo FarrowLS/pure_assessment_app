@@ -31,8 +31,8 @@ def item(request, testeeassessment_id):
             else:
                 current_testee_assessment.status = 'failed'
             current_testee_assessment.save() 
-            return HttpResponse('You are done!')
-            # return HttpResponseRedirect(reverse('assessmentindex',))        
+            # return HttpResponse('You are done!')
+            return HttpResponseRedirect(reverse('assessmentindex',))        
 
 
         unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True) 

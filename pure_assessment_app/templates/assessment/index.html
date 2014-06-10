@@ -28,7 +28,7 @@
 {% if finished_assesments_list %}
     <ul>
     {% for assessment in finished_assesments_list %}
-        <li>{{assessment.assessment.name}}</li>
+        <li>{{assessment.assessment.name}} - {{assessment.status}} </li>
     {% endfor %}
     </ul>
 {% else %}

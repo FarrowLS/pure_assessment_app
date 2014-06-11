@@ -19,9 +19,11 @@ def item(request, testeeassessment_id):
     if not current_testee_assessment.testee == request.user:
         raise PermissionDenied
     else:
+        # Check to see if testee is done - if they are set status
         answered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).exclude(option__isnull=True)
-        if current_testee_assessment.assessment.itemsneeded <= len(answered_items):
+        if len(answered_items) >= current_testee_assessment.assessment.itemsneeded:
             number_of_correct_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__correct_answer=True)
+
             if len(number_of_correct_items) >= current_testee_assessment.assessment.itemsneededtopass:
                 current_testee_assessment.status = 'passed'
             else:
@@ -29,10 +31,13 @@ def item(request, testeeassessment_id):
             current_testee_assessment.save() 
             return HttpResponseRedirect(reverse('assessmentindex',))        
 
+        # Check to see if testee has unanswered items
         unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True)
         if len(unanswered_items) > 0:
             item = get_object_or_404(Item, pk=unanswered_items[0].item_id) 
             testee_response_id = unanswered_items[0].id
+
+        # Serve new item
         else: 
             # Add try/except here
             current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank).filter(status='active')

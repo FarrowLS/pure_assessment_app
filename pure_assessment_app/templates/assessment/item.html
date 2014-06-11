@@ -17,6 +17,7 @@
 {% if item %}   
 <form action="{% url 'assessmentresponse' testee_response_id %}" method="post">
     {% csrf_token %} 
+    <input type="hidden" name="TesteeResponse" value="{{testee_response_id}}">
     <strong>{{ item }}</strong>
     {% for option in item.option_set.all %}
         <div>

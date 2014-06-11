@@ -70,7 +70,8 @@ def item(request, testeeassessment_id):
         return render(request, 'assessment/item.html', context)
         
 def response(request, testee_response_id):
-    current_testee_response = get_object_or_404(TesteeResponse, pk=testee_response_id)
+    # current_testee_response = get_object_or_404(TesteeResponse, pk=testee_response_id)
+    current_testee_response = get_object_or_404(TesteeResponse, pk=request.POST['TesteeResponse'])
     try:
         selected_option = Option.objects.get(pk=request.POST['option']) 
     except (KeyError, Option.DoesNotExist):

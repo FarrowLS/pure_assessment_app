@@ -24,10 +24,16 @@ class TesteeAssessment(TimeStampedModel):
     status = StatusField()
     def __unicode__(self):
         return self.assessment.name
+    """ 
+    TO BE ADDED
+    def done(self):
+       # If they have done enough questions
+           return True
+       return False
+    """
 
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)
     item = models.ForeignKey(Item)
     option = models.ForeignKey(Option, null=True, blank=True) 
-    # STATUS = Choices('started', 'correct', 'incorrect')
-    # status = StatusField() 
+

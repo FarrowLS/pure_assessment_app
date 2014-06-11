@@ -160,7 +160,8 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/accounts/login/'
 
 # auth and allauth settings for django-allauth from http://www.sarahhagstrom.com/2013/09/the-missing-django-allauth-tutorial/
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/assessments/'
 # SOCIALACCOUNT_QUERY_EMAIL = True
 # SOCIALACCOUNT_PROVIDERS = {}
 SITE_ID = 1 

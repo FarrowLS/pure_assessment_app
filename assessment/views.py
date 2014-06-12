@@ -31,17 +31,11 @@ def item(request, testeeassessment_id):
                 current_testee_response.save()       
                 return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,)))
         else:    
-            # Check to see if testee is done - if they are set status
-            answered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).exclude(option__isnull=True)
-            if len(answered_items) >= current_testee_assessment.assessment.itemsneeded:
-                number_of_correct_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__correct_answer=True)
-
-                if len(number_of_correct_items) >= current_testee_assessment.assessment.itemsneededtopass:
-                    current_testee_assessment.status = 'passed'
-                else:
-                    current_testee_assessment.status = 'failed'
-                current_testee_assessment.save() 
-                return HttpResponseRedirect(reverse('assessmentindex',))        
+            # Check to see if assessment is finished - if it is, determine if the testee passed or failed 
+            assessment_status = TesteeAssessment() 
+            assessment_status.statusupdate(current_testee_assessment)
+            if current_testee_assessment.status == 'passed' or current_testee_assessment.status == 'failed':
+                return HttpResponseRedirect(reverse('assessmentindex',))
 
             # Check to see if testee has unanswered items
             unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True)
@@ -75,15 +69,6 @@ def item(request, testeeassessment_id):
                     return item
                 
                 item = select_random_item()
-
-                # BEING REFACTORED OUT
-                # random_item_position = random.randint(0, len(current_items) - 1)         
-                # item = current_items[random_item_position] 
-                # Refactor this ugly hack - turn the selection code above into a function 
-     
-                # if item.id in answered_and_unanswered_items_ids:
-     	        # Add django.shortcuts.render here.
-                #    return HttpResponseRedirect(reverse('assessmentitem', args=(testeeassessment_id,))) 
                 ## END ITEM SELECTION
 
                 new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 
@@ -91,7 +76,7 @@ def item(request, testeeassessment_id):
                 testee_response_id = new_testee_response.id
             context = {'item': item,
                        'testeeassessment_id': testeeassessment_id,  
-                       'testee_response_id': testee_response_id,} 
+                       'testee_response_id': testee_response_id} 
             return render(request, 'assessment/item.html', context)
 
 """        

@@ -217,3 +217,5 @@ class AssessmentItemTests(TestCase):
     # Test to show passing assessment
 
     # Test to show failing assessment
+
+    # Not enough items to give assessment

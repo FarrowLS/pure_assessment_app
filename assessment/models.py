@@ -41,7 +41,8 @@ class TesteeAssessment(TimeStampedModel):
             else:
                 self.status = 'failed'
             self.save()
-        return self.status    
+        return self.status
+    # def selectitem(self): # TO BE ADDED        
     
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)

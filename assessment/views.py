@@ -37,22 +37,17 @@ def item(request, testeeassessment_id):
         # If a form is not being submitted, serve the form
         else:    
             # Check to see if assessment is finished - if it is, determine if the testee passed or failed 
-            
-            # assessment_status = TesteeAssessment() 
-            # assessment_status.statusupdate(current_testee_assessment)
-
             current_testee_assessment.statusupdate()    
-
             if current_testee_assessment.status == 'passed' or current_testee_assessment.status == 'failed':
                 return HttpResponseRedirect(reverse('assessmentindex',))
 
-            # Check to see if testee has unanswered items
+            # Check to see if testee has unanswered items - if so, serve the first one
             unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__isnull=True)
             if len(unanswered_items) > 0:
                 item = get_object_or_404(Item, pk=unanswered_items[0].item_id) 
                 testee_response_id = unanswered_items[0].id
 
-            # Serve new item
+            # If there is not an existing item, serve a new item
             else: 
                 ## START ITEM SELCTION
                 # Add try/except here
@@ -70,6 +65,8 @@ def item(request, testeeassessment_id):
                     answered_and_unanswered_items_ids.extend([an_item.item_id])  
 
                 # More items in assessment than in itembank issue to be delt with later 
+
+                # THIS IS CURRENTLY BROKEN AND NEEDS TO BE FIXED
                 def select_random_item():
                     random_item_position = random.randint(0, len(current_items) - 1)         
                     item = current_items[random_item_position]        

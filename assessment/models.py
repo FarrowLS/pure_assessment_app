@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+# from django.http import HttpResponseRedirect
+# from django.core.urlresolvers import reverse
 
 from model_utils.models import TimeStampedModel
 from model_utils.fields import StatusField
@@ -41,6 +41,7 @@ class TesteeAssessment(TimeStampedModel):
             else:
                 self.status = 'failed'
             self.save()
+        return self.status    
     
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)

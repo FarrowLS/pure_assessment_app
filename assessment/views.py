@@ -48,41 +48,17 @@ def item(request, testeeassessment_id):
 
             # If there is not an existing item, serve a new item
             else:   
-                #Select a new item
+                #Select a new item - make sure it is from the correct itembank 
                 current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank).filter(status='active')
 
                 if len(current_items) < current_testee_assessment.assessment.itemsneeded:
                     # Need to include an error message with this redirect
                     return HttpResponseRedirect(reverse('assessmentindex',))
                 else: 
-                    ## START ITEM SELCTION
+                    # Get the item
                     item = current_testee_assessment.select_item(current_items)
-                    """
-                    # Make sure item has not been presented before - NEEDS TO BE UPDATED
-                    item_approved = False            
 
-                    # TEST THIS CODE TO SEE IF IT WILL GET 1 RANDOM ITEM FROM DB: objects.all().filter(isnull=True).filter('?')[:1]
-
-                    answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id) 
-                    answered_and_unanswered_items_ids = []
-
-                    for an_item in answered_and_unanswered_items:
-                        answered_and_unanswered_items_ids.extend([an_item.item_id])  
-
-                    # More items in assessment than in itembank issue to be delt with later 
-
-                    # THIS IS CURRENTLY BROKEN AND NEEDS TO BE FIXED
-                    def select_random_item():
-                        random_item_position = random.randint(0, len(current_items) - 1)         
-                        item = current_items[random_item_position]        
-                        if item.id in answered_and_unanswered_items_ids:
-                            select_random_item()
-                        return item
-                    
-                    item = select_random_item()
-                    """
-                    ## END ITEM SELECTION
-
+                    # Create a new TesteeResponse
                     new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 
                     new_testee_response.save()        
                     testee_response_id = new_testee_response.id

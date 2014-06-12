@@ -6,7 +6,7 @@
 {% block breadcrumbstart %}
     {{ block.super }}
     <li><a href=" {% url 'assessmentindex' %} ">Tests</a></li>
-    <li><a href=" {% url 'assessmentitem' item.id %} ">Current Question</a></li>
+    <li><a href=" {% url 'assessmentitem' testeeassessment_id %} ">Current Question</a></li>
 {% endblock breadcrumbstart%}
 {% block breadcrumbend %}
     {{ block.super }}
@@ -15,7 +15,7 @@
 {% block body %}
 
 {% if item %}   
-<form action="{% url 'assessmentresponse' testee_response_id %}" method="post">
+<form action="{% url 'assessmentitem' testeeassessment_id %}{# url 'assessmentresponse' testee_response_id #}" method="post">
     {% csrf_token %} 
     <input type="hidden" name="TesteeResponse" value="{{testee_response_id}}">
     <strong>{{ item }}</strong>
@@ -28,12 +28,5 @@
     <input type="submit" value="Submit">
 </form>
 {% endif %}
-
-<!-- TO BE REMOVED
-<br />
-The current item id: {# item.id #}
-<br />
-Previous item ids: {# testdata1 #}
--->
 
 {% endblock body %}

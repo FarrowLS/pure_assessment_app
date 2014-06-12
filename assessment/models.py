@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
-# from django.http import HttpResponseRedirect
-# from django.core.urlresolvers import reverse
+import random
 
 from model_utils.models import TimeStampedModel
 from model_utils.fields import StatusField
@@ -26,7 +25,7 @@ class TesteeAssessment(TimeStampedModel):
     status = StatusField()
     def __unicode__(self):
         return self.assessment.name
-    def statusupdate(self):
+    def status_update(self):
         # WRITE TESTS FOR THIS
         # Check to see if testee has answered enough questions to complete the assessment
         answered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id).exclude(option__isnull=True)
@@ -42,7 +41,30 @@ class TesteeAssessment(TimeStampedModel):
                 self.status = 'failed'
             self.save()
         return self.status
-    # def selectitem(self): # TO BE ADDED        
+    def select_item(self, current_items):
+        # Make sure item has not been presented before - NEEDS TO BE UPDATED
+        item_approved = False            
+
+        # TEST THIS CODE TO SEE IF IT WILL GET 1 RANDOM ITEM FROM DB: objects.all().filter(isnull=True).filter('?')[:1]
+
+        answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id) 
+        answered_and_unanswered_items_ids = []
+
+        for an_item in answered_and_unanswered_items:
+            answered_and_unanswered_items_ids.extend([an_item.item_id])  
+
+        # More items in assessment than in itembank issue to be delt with later 
+
+        # THIS IS CURRENTLY BROKEN AND NEEDS TO BE FIXED
+        def select_random_item():
+            random_item_position = random.randint(0, len(current_items) - 1)         
+            item = current_items[random_item_position]        
+            if item.id in answered_and_unanswered_items_ids:
+                select_random_item()
+            return item
+        
+        item = select_random_item()
+        return item      
     
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)

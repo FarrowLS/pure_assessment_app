@@ -2,7 +2,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
-import random
 
 from itembank.models import Item, Option
 from assessment.models import Assessment, TesteeAssessment, TesteeResponse
@@ -37,7 +36,7 @@ def item(request, testeeassessment_id):
         # If a form is not being submitted, serve the form
         else:    
             # Check to see if assessment is finished - if it is, determine if the testee passed or failed 
-            current_testee_assessment.statusupdate()    
+            current_testee_assessment.status_update()    
             if current_testee_assessment.status == 'passed' or current_testee_assessment.status == 'failed':
                 return HttpResponseRedirect(reverse('assessmentindex',))
 
@@ -57,6 +56,8 @@ def item(request, testeeassessment_id):
                     return HttpResponseRedirect(reverse('assessmentindex',))
                 else: 
                     ## START ITEM SELCTION
+                    item = current_testee_assessment.select_item(current_items)
+                    """
                     # Make sure item has not been presented before - NEEDS TO BE UPDATED
                     item_approved = False            
 
@@ -79,6 +80,7 @@ def item(request, testeeassessment_id):
                         return item
                     
                     item = select_random_item()
+                    """
                     ## END ITEM SELECTION
 
                     new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 

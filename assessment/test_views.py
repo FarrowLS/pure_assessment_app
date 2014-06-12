@@ -213,3 +213,7 @@ class AssessmentItemTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "text")
         """
+
+    # Test to show passing assessment
+
+    # Test to show failing assessment

@@ -16,9 +16,12 @@ def index(request):
 
 def item(request, testeeassessment_id):    
     current_testee_assessment = get_object_or_404(TesteeAssessment, pk=testeeassessment_id)
+    # Check to see if the user has access to the test
     if not current_testee_assessment.testee == request.user:
         raise PermissionDenied
     else:
+        
+        # If a form is being submitted, process it and redirect back to the form
         if request.method == 'POST':
             current_testee_response = get_object_or_404(TesteeResponse, pk=request.POST['TesteeResponse'])
             try:
@@ -30,10 +33,16 @@ def item(request, testeeassessment_id):
                 current_testee_response.option_id = selected_option.id
                 current_testee_response.save()       
                 return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,)))
+        
+        # If a form is not being submitted, serve the form
         else:    
             # Check to see if assessment is finished - if it is, determine if the testee passed or failed 
-            assessment_status = TesteeAssessment() 
-            assessment_status.statusupdate(current_testee_assessment)
+            
+            # assessment_status = TesteeAssessment() 
+            # assessment_status.statusupdate(current_testee_assessment)
+
+            current_testee_assessment.statusupdate()    
+
             if current_testee_assessment.status == 'passed' or current_testee_assessment.status == 'failed':
                 return HttpResponseRedirect(reverse('assessmentindex',))
 
@@ -77,18 +86,4 @@ def item(request, testeeassessment_id):
             context = {'item': item,
                        'testeeassessment_id': testeeassessment_id,  
                        'testee_response_id': testee_response_id} 
-            return render(request, 'assessment/item.html', context)
-
-"""        
-def response(request, testee_response_id):
-    # current_testee_response = get_object_or_404(TesteeResponse, pk=testee_response_id)
-    current_testee_response = get_object_or_404(TesteeResponse, pk=request.POST['TesteeResponse'])
-    try:
-        selected_option = Option.objects.get(pk=request.POST['option']) 
-    except (KeyError, Option.DoesNotExist):
-        return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,))) 
-    else:
-        current_testee_response.option_id = selected_option.id
-        current_testee_response.save()       
-        return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,)))
-"""        
+            return render(request, 'assessment/item.html', context)     

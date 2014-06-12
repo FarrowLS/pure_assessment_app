@@ -26,22 +26,22 @@ class TesteeAssessment(TimeStampedModel):
     status = StatusField()
     def __unicode__(self):
         return self.assessment.name
-    def statusupdate(self, current_testee_assessment):
+    def statusupdate(self):
+        # WRITE TESTS FOR THIS
         # Check to see if testee has answered enough questions to complete the assessment
-        answered_items = TesteeResponse.objects.all().filter(testeeassessment=current_testee_assessment.id).exclude(option__isnull=True)
-        if not (current_testee_assessment.status == 'started'):
-            current_testee_assessment.status = 'started'
-            current_testee_assessment.save()
-        if len(answered_items) >= current_testee_assessment.assessment.itemsneeded:
+        answered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id).exclude(option__isnull=True)
+        if not (self.status == 'started'):
+            self.status = 'started'
+            self.save()
+        if len(answered_items) >= self.assessment.itemsneeded:
             # Since the testee has answered enough questions, check to see if testee has passed or failed
-            number_of_correct_items = TesteeResponse.objects.all().filter(testeeassessment=current_testee_assessment.id).filter(option__correct_answer=True)
-            if len(number_of_correct_items) >= current_testee_assessment.assessment.itemsneededtopass:
-                current_testee_assessment.status = 'passed'
+            number_of_correct_items = TesteeResponse.objects.all().filter(testeeassessment=self.id).filter(option__correct_answer=True)
+            if len(number_of_correct_items) >= self.assessment.itemsneededtopass:
+                self.status = 'passed'
             else:
-                current_testee_assessment.status = 'failed'
-            current_testee_assessment.save()
+                self.status = 'failed'
+            self.save()
     
-
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)
     item = models.ForeignKey(Item)

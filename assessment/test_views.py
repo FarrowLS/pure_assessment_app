@@ -42,16 +42,13 @@ def create_testeeresponse(testeeassessment, item, option=None):
     """
     return TesteeResponse.objects.create(testeeassessment=testeeassessment, item=item, option=option)
 
-class AssessmentIndexTests(TestCase):
-
-    """"
-    TO BE ADDED   
+class AssessmentIndexAnonymousTests(TestCase):
+   
     def setUp(self):
        pass
 
     def tearDown(self):
        pass
-    """
 
     def test_index_can_not_be_seen_by_anonymous_user(self):
         """
@@ -60,14 +57,29 @@ class AssessmentIndexTests(TestCase):
         response = self.client.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 302)
 
+
+class AssessmentIndexAuthenticatedTests(TestCase):
+   
+    def setUp(self):
+        self.test_user1_setup = User.objects.create_user(username='bob', password='secret')
+        self.test_user = Client()
+        self.test_user.login(username='bob', password='secret')
+        self.test_user2_setup = User.objects.create_user(username='fred', password='secret')
+        self.test_itembank1 = create_itembank(name="Itembank1")
+        self.test_assessment1 = create_assessment(name="Test1", itembank=self.test_itembank1)
+        
+    def tearDown(self):
+        pass
+        """
+        self.test_user1_setup.delete()
+        self.test_user.delete()
+        """    
+
     def test_no_active_assesments(self):
         """
         The Assessment page should indicate there are no assessments to complete
         """
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_user = Client()
-        test_user.login(username='bob', password='secret')
-        response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
+        response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "You do not have any tests to complete at this time.")
 
@@ -75,13 +87,9 @@ class AssessmentIndexTests(TestCase):
         """
         The assessment index page should have a list of active assessments, as links to the assessments, when they exist
         """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_user = Client()
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup) 
-        test_user.login(username='bob', password='secret')  
-        response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
+        test_userassessment1 = create_testeeassessment(self.test_assessment1, self.test_user1_setup) 
+        self.test_user.login(username='bob', password='secret')  
+        response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test1")
         self.assertContains(response, '<a href="/assessments/1/">') # Checks links to assessments
@@ -90,25 +98,16 @@ class AssessmentIndexTests(TestCase):
         """
         The assessment index page should not have active assessments from other users
         """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
-        test_user_setup2 = User.objects.create_user(username='joe', password='secret')
-        test_user = Client()
-        test_user.login(username='joe', password='secret')
-        response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
-        self.assertEqual(response.status_code, 200)
+        test_userassessment2 = create_testeeassessment(self.test_assessment1, self.test_user2_setup)
+        response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
+        self.assertEqual(response.status_code, 200)  
         self.assertNotContains(response, "Test1")
 
     def test_no_completed_assesments(self):
         """
         The Assessment page should indicate there are no completed assessments
         """
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_user = Client()
-        test_user.login(username='bob', password='secret')
-        response = test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
+        response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "You have not completed any tests yet.")
 

@@ -52,7 +52,7 @@ def item(request, testeeassessment_id):
                 current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank).filter(status='active')
 
                 if len(current_items) < current_testee_assessment.assessment.itemsneeded:
-                    # Need to include an error message with this redirect
+                    # Need to include an error message with this redirect - Inform use there is an issue with the test and to contact the admin
                     return HttpResponseRedirect(reverse('assessmentindex',))
                 else: 
                     # Get the item
@@ -62,7 +62,26 @@ def item(request, testeeassessment_id):
                     new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 
                     new_testee_response.save()        
                     testee_response_id = new_testee_response.id
+
+            # START TESTING
+            """
+            answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id) 
+            answered_and_unanswered_items_ids = []
+
+            for an_item in answered_and_unanswered_items:
+                answered_and_unanswered_items_ids.extend([an_item.item_id])  
+
+            current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank).filter(status='active')    
+            current_items_ids = []
+            for an_item in current_items:
+                current_items_ids.extend([an_item.id])   
+            """      
+            # END TESTING
+
             context = {'item': item,
                        'testeeassessment_id': current_testee_assessment.id,  
-                       'testee_response_id': testee_response_id,} 
+                       'testee_response_id': testee_response_id,}
+                       # 'answered_and_unanswered_items': answered_and_unanswered_items_ids,
+                       # 'current_items_ids': current_items_ids}
+                       
             return render(request, 'assessment/item.html', context)     

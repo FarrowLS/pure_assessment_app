@@ -29,4 +29,18 @@
 </form>
 {% endif %}
 
+<BR />
+START TESTING <BR />
+{% if answered_and_unanswered_items%}
+    Answered and unanswered items: {{answered_and_unanswered_items}}
+{% endif %}
+
+<br />
+
+{% if current_items_ids %}
+    Avalible items: {{current_items_ids}}
+{% endif %}
+<BR />START TESTING 
+
+
 {% endblock body %}

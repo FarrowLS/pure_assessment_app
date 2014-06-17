@@ -42,8 +42,7 @@ class TesteeAssessment(TimeStampedModel):
             self.save()
         return self.status
     def select_item(self, current_items):
-        # Make sure item has not been presented before - NEEDS TO BE UPDATED
-        item_approved = False            
+        # Make sure item has not been presented before       
 
         # TEST THIS CODE TO SEE IF IT WILL GET 1 RANDOM ITEM FROM DB: objects.all().filter(isnull=True).filter('?')[:1]
 
@@ -53,18 +52,28 @@ class TesteeAssessment(TimeStampedModel):
         for an_item in answered_and_unanswered_items:
             answered_and_unanswered_items_ids.extend([an_item.item_id])  
 
-        # More items in assessment than in itembank issue to be delt with later 
-
         # THIS IS CURRENTLY BROKEN AND NEEDS TO BE FIXED
-        def select_random_item():
-            random_item_position = random.randint(0, len(current_items) - 1)         
-            item = current_items[random_item_position]        
-            if item.id in answered_and_unanswered_items_ids:
-                select_random_item()
-            return item
         
-        item = select_random_item()
-        return item      
+        random_item_position = random.randint(0, len(current_items) - 1)         
+        item = current_items[random_item_position]    
+
+        if item.id in answered_and_unanswered_items_ids or item == None:
+            self.select_item(current_items)
+
+            # select_random_item(current_items, answered_and_unanswered_items_ids)
+            
+        
+        # item = select_random_item(current_items, answered_and_unanswered_items_ids)
+
+
+
+        # Create a new TesteeResponse
+        # new_testee_response = TesteeResponse(testeeassessment=self, item=item, option=None) 
+        # new_testee_response.save()        
+        # testee_response_id = new_testee_response.id
+        
+
+        return item #, testee_response_id      
     
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)

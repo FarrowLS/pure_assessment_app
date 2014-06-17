@@ -69,11 +69,11 @@ class AssessmentIndexAuthenticatedTests(TestCase):
         self.test_assessment1 = create_assessment(name="Test1", itembank=self.test_itembank1)
         
     def tearDown(self):
-        pass
-        """
         self.test_user1_setup.delete()
-        self.test_user.delete()
-        """    
+        # self.test_user.delete()
+        self.test_user2_setup.delete()  
+        self.test_itembank1.delete()  
+        self.test_assessment1.delete()
 
     def test_no_active_assesments(self):
         """

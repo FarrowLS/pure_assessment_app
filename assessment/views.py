@@ -46,6 +46,9 @@ def item(request, testeeassessment_id):
                 item = get_object_or_404(Item, pk=unanswered_items[0].item_id) 
                 testee_response_id = unanswered_items[0].id
 
+                # FOR TESTING
+                answered_and_unanswered_items_ids = ''
+
             # If there is not an existing item, serve a new item
             else:   
                 #Select a new item - make sure it is from the correct itembank 
@@ -56,7 +59,7 @@ def item(request, testeeassessment_id):
                     return HttpResponseRedirect(reverse('assessmentindex',))
                 else: 
                     # Get the item
-                    item = current_testee_assessment.select_item(current_items)
+                    item, answered_and_unanswered_items_ids = current_testee_assessment.select_item(current_items)
 
                     # Create a new TesteeResponse
                     new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 
@@ -80,8 +83,10 @@ def item(request, testeeassessment_id):
 
             context = {'item': item,
                        'testeeassessment_id': current_testee_assessment.id,  
-                       'testee_response_id': testee_response_id,}
-                       # 'answered_and_unanswered_items': answered_and_unanswered_items_ids,
+                       'testee_response_id': testee_response_id,
+
+                       # FOR TESTING
+                       'answered_and_unanswered_items_ids': answered_and_unanswered_items_ids,}
                        # 'current_items_ids': current_items_ids}
                        
             return render(request, 'assessment/item.html', context)     

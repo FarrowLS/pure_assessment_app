@@ -31,14 +31,14 @@
 
 <BR />
 START TESTING <BR />
-{% if answered_and_unanswered_items%}
-    Answered and unanswered items: {{answered_and_unanswered_items}}
+{% if answered_and_unanswered_items_ids%}
+    Answered and unanswered items: {{answered_and_unanswered_items_ids}}
 {% endif %}
 
 <br />
 
-{% if current_items_ids %}
-    Avalible items: {{current_items_ids}}
+{% if item.id %}
+    Item: {{item.id}}
 {% endif %}
 <BR />START TESTING 
 

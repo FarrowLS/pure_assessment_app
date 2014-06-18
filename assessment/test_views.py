@@ -188,9 +188,10 @@ class AssessmentItemTests(TestCase):
         """
         Answered items should not be served
         """
+        
         """
 
-        TEST TO BE FIXED
+        # TEST TO BE FIXED 
         
         test_itembank1 = create_itembank(name="Itembank1")
         test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
@@ -208,9 +209,9 @@ class AssessmentItemTests(TestCase):
         test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1, test_option1_1)
         response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         # TO BE UPDATED - CHANGE BACK TO 200 AFTER ITEM SELECTION IS UPDATED
-        # self.assertEqual(response.status_code, 302) 
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "text")
+        self.assertEqual(response.status_code, 302) 
+        # self.assertEqual(response.status_code, 200)
+        # self.assertContains(response, "text")
         """
 
     # Test to show passing assessment

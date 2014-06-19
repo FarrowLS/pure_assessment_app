@@ -118,6 +118,13 @@ class AssessmentIndexAuthenticatedTests(TestCase):
     # TO BE ADDED def test_no_completed_assesments_from_other_user(self):
 
 class AssessmentItemTests(TestCase):
+
+    def setUp(self):
+       pass
+
+    def tearDown(self):
+       pass
+
     def test_assessment_item_can_not_be_seen_by_anonymous_user(self):
         """
         An assessment item page should be behind the login
@@ -184,15 +191,13 @@ class AssessmentItemTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test stem text1")
 
-    def test_assessment_answered_item_should_not_be_served(self):
+    # def test_assessment_answered_item_should_not_be_served(self):
         """
         Answered items should not be served
         """
-        
-        """
 
         # TEST TO BE FIXED 
-        
+        """
         test_itembank1 = create_itembank(name="Itembank1")
         test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
         test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
@@ -209,9 +214,9 @@ class AssessmentItemTests(TestCase):
         test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1, test_option1_1)
         response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         # TO BE UPDATED - CHANGE BACK TO 200 AFTER ITEM SELECTION IS UPDATED
-        self.assertEqual(response.status_code, 302) 
-        # self.assertEqual(response.status_code, 200)
-        # self.assertContains(response, "text")
+        # self.assertEqual(response.status_code, 302) 
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "text2")
         """
 
     # Test to show passing assessment

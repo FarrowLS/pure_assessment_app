@@ -42,18 +42,17 @@ class TesteeAssessment(TimeStampedModel):
             self.save()
         return self.status
     def select_item(self, current_items):
+        # WRITE TESTS FOR THIS
         # Make sure item has not been presented before       
 
         # TEST THIS CODE TO SEE IF IT WILL GET 1 RANDOM ITEM FROM DB: objects.all().filter(isnull=True).filter('?')[:1]
 
-        item_approved = False
         answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id) 
         answered_and_unanswered_items_ids = []
 
         for an_item in answered_and_unanswered_items:
             answered_and_unanswered_items_ids.extend([an_item.item_id])  
 
-        # THIS IS CURRENTLY BROKEN AND NEEDS TO BE FIXED
         def get_random_item(current_items):
             random_item_position = random.randint(0, len(current_items) - 1)         
             item = current_items[random_item_position]  
@@ -64,35 +63,7 @@ class TesteeAssessment(TimeStampedModel):
 
         item = get_random_item(current_items)   
 
-        """
-        while item_approved == False:     
-            for item_id_to_check in answered_and_unanswered_items_ids:
-                if item_id_to_check == item.id:
-                    get_random_item(current_items)
-
-
-
-
-            if item.id in answered_and_unanswered_items_ids:
-                get_random_item(current_items)
-            else:
-                item_approved = True        
-        """        
-
-            # select_random_item(current_items, answered_and_unanswered_items_ids)
-            
-        
-        # item = select_random_item(current_items, answered_and_unanswered_items_ids)
-
-
-
-        # Create a new TesteeResponse
-        # new_testee_response = TesteeResponse(testeeassessment=self, item=item, option=None) 
-        # new_testee_response.save()        
-        # testee_response_id = new_testee_response.id
-
-
-        return item, answered_and_unanswered_items_ids # REMOVE answered_and_unanswered_items_ids AFTER TESTING      
+        return item # REMOVE answered_and_unanswered_items_ids AFTER TESTING      
     
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)

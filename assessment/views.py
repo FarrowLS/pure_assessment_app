@@ -59,34 +59,15 @@ def item(request, testeeassessment_id):
                     return HttpResponseRedirect(reverse('assessmentindex',))
                 else: 
                     # Get the item
-                    item, answered_and_unanswered_items_ids = current_testee_assessment.select_item(current_items)
+                    item = current_testee_assessment.select_item(current_items)
 
                     # Create a new TesteeResponse
                     new_testee_response = TesteeResponse(testeeassessment=current_testee_assessment, item=item, option=None) 
                     new_testee_response.save()        
                     testee_response_id = new_testee_response.id
 
-            # START TESTING
-            """
-            answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id) 
-            answered_and_unanswered_items_ids = []
-
-            for an_item in answered_and_unanswered_items:
-                answered_and_unanswered_items_ids.extend([an_item.item_id])  
-
-            current_items = Item.objects.all().filter(itembank = current_testee_assessment.assessment.itembank).filter(status='active')    
-            current_items_ids = []
-            for an_item in current_items:
-                current_items_ids.extend([an_item.id])   
-            """      
-            # END TESTING
-
             context = {'item': item,
                        'testeeassessment_id': current_testee_assessment.id,  
-                       'testee_response_id': testee_response_id,
-
-                       # FOR TESTING
-                       'answered_and_unanswered_items_ids': answered_and_unanswered_items_ids,}
-                       # 'current_items_ids': current_items_ids}
+                       'testee_response_id': testee_response_id,}
                        
             return render(request, 'assessment/item.html', context)     

@@ -120,7 +120,22 @@ class AssessmentIndexAuthenticatedTests(TestCase):
 class AssessmentItemTests(TestCase):
 
     def setUp(self):
-       pass
+        # Setup for itembanks, assessments, items and options
+        self.test_itembank1 = Itembank.objects.create(name="Itembank1")
+        self.test_assessment1 = Assessment.objects.create(name="Test1", itembank=self.test_itembank1)
+        self.test_item1 = Item.objects.create(itembank=self.test_itembank1, stem_text="Test stem text1")
+        self.test_option1_1 = Option.objects.create(item=self.test_item1, option_text="True", correct_answer=True)
+        self.test_option1_2 = Option.objects.create(item=self.test_item1, option_text="False", correct_answer=False)
+        self.test_item2 = Item.objects.create(itembank=self.test_itembank1, stem_text="Test stem text2")
+        self.test_option2_1 =  Option.objects.create(item=self.test_item2, option_text="True", correct_answer=True)
+        self.test_option2_2 = Option.objects.create(item=self.test_item2, option_text="False", correct_answer=False)
+        # Setup for users and user assessments
+        self.test_user_setup1 = User.objects.create_user(username='bob', password='secret')
+        self.test_user_setup2 = User.objects.create_user(username='joe', password='secret')
+        self.test_userassessment1 = TesteeAssessment.objects.create(assessment=self.test_assessment1, testee=self.test_user_setup1)
+
+
+
 
     def tearDown(self):
        pass
@@ -129,65 +144,74 @@ class AssessmentItemTests(TestCase):
         """
         An assessment item page should be behind the login
         """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
-        response = self.client.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+
+        # test_itembank1 = create_itembank(name="Itembank1")
+        # test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        
+        # I AM HERE IN REFACTOR
+        # test_user_setup = User.objects.create_user(username='bob', password='secret')
+        # test_userassessment1 = create_testeeassessment(self.test_assessment1, test_user_setup)
+
+        response = self.client.get(reverse('assessmentitem', args=(self.test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 302)
 
     def test_assessment_item_can_not_be_seen_by_user_who_is_not_the_testee(self):
         """
         The assessment item should not be able to be seen by a user who is not the testee
         """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
-        test_user_setup2 = User.objects.create_user(username='joe', password='secret')
+        # test_itembank1 = create_itembank(name="Itembank1")
+        # test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        # test_user_setup = User.objects.create_user(username='bob', password='secret')
+        # test_userassessment1 = create_testeeassessment(test_assessment1, self.test_user_setup1)
+        
+        # test_user_setup2 = User.objects.create_user(username='joe', password='secret')
+
         test_user = Client()
         test_user.login(username='joe', password='secret')
-        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        response = test_user.get(reverse('assessmentitem', args=(self.test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 403) 
 
     def test_assessment_item_can_be_seen_by_testee(self):
         """
         An assessment item page should be seen by testee
         """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
-        test_option1 = create_option(item=test_item1, option_text="True", correct_answer=True)
-        test_option2 = create_option(item=test_item1, option_text="False", correct_answer=False) 
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        # test_itembank1 = create_itembank(name="Itembank1")
+        # test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        # test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
+        # test_option1 = create_option(item=test_item1, option_text="True", correct_answer=True)
+        # test_option2 = create_option(item=test_item1, option_text="False", correct_answer=False) 
+        # test_user_setup = User.objects.create_user(username='bob', password='secret')
+
+        # test_userassessment1 = create_testeeassessment(test_assessment1, self.test_user_setup1)
+        
         test_user = Client()
         test_user.login(username='bob', password='secret')
-        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        response = test_user.get(reverse('assessmentitem', args=(self.test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Test stem text1")
+        self.assertContains(response, "Test stem text")
 
     def test_assessment_unanswered_item_will_be_served(self):
         """
         Unanswered items should be served until answered
         """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
-        test_option1_1 = create_option(item=test_item1, option_text="True", correct_answer=True)
-        test_option1_2 = create_option(item=test_item1, option_text="False", correct_answer=False)
-        test_item2 = create_item(itembank=test_itembank1, stem_text="Test stem text2")
-        test_option2_1 = create_option(item=test_item2, option_text="True", correct_answer=True)
-        test_option2_2 = create_option(item=test_item2, option_text="False", correct_answer=False)
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
+        # test_itembank1 = create_itembank(name="Itembank1")
+        # test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
+        # test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
+        # test_option1_1 = create_option(item=test_item1, option_text="True", correct_answer=True)
+        # test_option1_2 = create_option(item=test_item1, option_text="False", correct_answer=False)
+        # test_item2 = create_item(itembank=test_itembank1, stem_text="Test stem text2")
+        # test_option2_1 = create_option(item=test_item2, option_text="True", correct_answer=True)
+        # test_option2_2 = create_option(item=test_item2, option_text="False", correct_answer=False)
+
+        # test_user_setup = User.objects.create_user(username='bob', password='secret')
+        # test_userassessment1 = create_testeeassessment(test_assessment1, self.test_user_setup1)
 
         # test_testeeresponse = create_testeeresponse(test_userassessment1, test_item2, test_option2_1) # for a test
 
-        test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1)
+        test_testeeresponse = TesteeResponse.objects.create(testeeassessment=self.test_userassessment1, item=self.test_item1) # create_testeeresponse(self.test_userassessment1, self.test_item1)
         test_user = Client()
         test_user.login(username='bob', password='secret')
-        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        response = test_user.get(reverse('assessmentitem', args=(self.test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test stem text1")
 

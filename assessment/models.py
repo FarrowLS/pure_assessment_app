@@ -43,10 +43,7 @@ class TesteeAssessment(TimeStampedModel):
         return self.status
     def select_item(self, current_items):
         # WRITE TESTS FOR THIS
-        # Make sure item has not been presented before       
-
-        # TEST THIS CODE TO SEE IF IT WILL GET 1 RANDOM ITEM FROM DB: objects.all().filter(isnull=True).filter('?')[:1]
-
+        # Select an item, make sure item has not been presented before and return it      
         answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id) 
         answered_and_unanswered_items_ids = []
 
@@ -63,7 +60,7 @@ class TesteeAssessment(TimeStampedModel):
 
         item = get_random_item(current_items)   
 
-        return item # REMOVE answered_and_unanswered_items_ids AFTER TESTING      
+        return item      
     
 class TesteeResponse(TimeStampedModel):
     testeeassessment = models.ForeignKey(TesteeAssessment)

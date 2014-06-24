@@ -102,6 +102,11 @@ class AssessmentItemTests(TestCase):
         self.test_item2 = Item.objects.create(itembank=self.test_itembank1, stem_text="Test stem text2")
         self.test_option2_1 =  Option.objects.create(item=self.test_item2, option_text="True", correct_answer=True)
         self.test_option2_2 = Option.objects.create(item=self.test_item2, option_text="False", correct_answer=False)
+
+        # self.test_item3 = Item.objects.create(itembank=self.test_itembank1, stem_text="Test stem text3")
+        # self.test_option3_1 =  Option.objects.create(item=self.test_item3, option_text="True", correct_answer=True)
+        # self.test_option3_2 = Option.objects.create(item=self.test_item3, option_text="False", correct_answer=False)
+
         # Setup for users and user assessments
         self.test_user_setup1 = User.objects.create_user(username='bob', password='secret')
         self.test_user_setup2 = User.objects.create_user(username='joe', password='secret')
@@ -151,29 +156,21 @@ class AssessmentItemTests(TestCase):
         """
         Answered items should not be served
         """
-
         # TEST TO BE FIXED 
-        """
-        test_itembank1 = create_itembank(name="Itembank1")
-        test_assessment1 = create_assessment(name="Test1", itembank=test_itembank1)
-        test_item1 = create_item(itembank=test_itembank1, stem_text="Test stem text1")
-        test_option1_1 = create_option(item=test_item1, option_text="True", correct_answer=True)
-        test_option1_2 = create_option(item=test_item1, option_text="False", correct_answer=False)
-        test_item2 = create_item(itembank=test_itembank1, stem_text="Test stem text2")
-        test_option2_1 = create_option(item=test_item2, option_text="True", correct_answer=True)
-        test_option2_2 = create_option(item=test_item2, option_text="False", correct_answer=False)
-        test_user_setup = User.objects.create_user(username='bob', password='secret')
-        test_userassessment1 = create_testeeassessment(test_assessment1, test_user_setup)
-        # test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1, test_option1_1)
-        test_user = Client()
-        test_user.login(username='bob', password='secret')
-        test_testeeresponse = create_testeeresponse(test_userassessment1, test_item1, test_option1_1)
-        response = test_user.get(reverse('assessmentitem', args=(test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+
+        # test_user = Client()
+        # test_user.login(username='bob', password='secret')
+
+        # test_testeeresponse = TesteeResponse.objects.create(testeeassessment=self.test_userassessment1, item=self.test_item2) # , option=self.test_option2_1)
+
+        # response = test_user.get(reverse('assessmentitem', args=(self.test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
+        
         # TO BE UPDATED - CHANGE BACK TO 200 AFTER ITEM SELECTION IS UPDATED
         # self.assertEqual(response.status_code, 302) 
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "text2")
-        """
+
+        # self.assertEqual(response.status_code, 200)
+        # self.assertContains(response, "text2")
+        
 
     # Test to show passing assessment
 

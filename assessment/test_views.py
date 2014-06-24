@@ -6,19 +6,6 @@ from django.contrib.auth.models import User
 from itembank.models import Itembank, Item, Option
 from assessment.models import Assessment, TesteeAssessment, TesteeResponse
 
-# Functions for test setup
-def create_testeeassessment(assessment, testee):
-    """
-    Creates a testee assessment with a relationship to an assessment and testee
-    """
-    return TesteeAssessment.objects.create(assessment=assessment, testee=testee)   
-
-def create_testeeresponse(testeeassessment, item, option=None):
-    """
-    Creates a testee response with a relationship to a testee response, item and maybee and option
-    """
-    return TesteeResponse.objects.create(testeeassessment=testeeassessment, item=item, option=option)
-
 class AssessmentIndexAnonymousTests(TestCase):
    
     def setUp(self):
@@ -39,8 +26,8 @@ class AssessmentIndexAuthenticatedTests(TestCase):
    
     def setUp(self):
         self.test_user1_setup = User.objects.create_user(username='bob', password='secret')
-        self.test_user = Client()
-        self.test_user.login(username='bob', password='secret')
+        # self.test_user = Client()
+        # self.test_user.login(username='bob', password='secret')
         self.test_user2_setup = User.objects.create_user(username='fred', password='secret')
         self.test_itembank1 = Itembank.objects.create(name="Itembank1")
         self.test_assessment1 = Assessment.objects.create(name="Test1", itembank=self.test_itembank1)
@@ -56,6 +43,8 @@ class AssessmentIndexAuthenticatedTests(TestCase):
         """
         The Assessment page should indicate there are no assessments to complete
         """
+        self.test_user = Client()
+        self.test_user.login(username='bob', password='secret')
         response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "You do not have any tests to complete at this time.")
@@ -64,18 +53,21 @@ class AssessmentIndexAuthenticatedTests(TestCase):
         """
         The assessment index page should have a list of active assessments, as links to the assessments, when they exist
         """
-        test_userassessment1 = create_testeeassessment(self.test_assessment1, self.test_user1_setup) 
+        test_userassessment1 = TesteeAssessment.objects.create(assessment=self.test_assessment1, testee=self.test_user1_setup) 
+        self.test_user = Client()
         self.test_user.login(username='bob', password='secret')  
         response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test1")
-        self.assertContains(response, '<a href="/assessments/1/">') # Checks links to assessments
+        self.assertContains(response, '<a href="/assessments/%d/">' % test_userassessment1.id) # Checks links to assessments
 
     def test_no_active_assesments_from_other_user(self):
         """
         The assessment index page should not have active assessments from other users
         """
-        test_userassessment2 = create_testeeassessment(self.test_assessment1, self.test_user2_setup)
+        test_userassessment2 = TesteeAssessment.objects.create(assessment=self.test_assessment1, testee=self.test_user2_setup)
+        self.test_user = Client()
+        self.test_user.login(username='bob', password='secret')
         response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)  
         self.assertNotContains(response, "Test1")
@@ -84,6 +76,9 @@ class AssessmentIndexAuthenticatedTests(TestCase):
         """
         The Assessment page should indicate there are no completed assessments
         """
+
+        self.test_user = Client()
+        self.test_user.login(username='bob', password='secret')
         response = self.test_user.get(reverse('assessmentindex'), **{'wsgi.url_scheme': 'https'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "You have not completed any tests yet.")

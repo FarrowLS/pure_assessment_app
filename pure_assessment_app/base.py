@@ -140,6 +140,8 @@ STATICFILES_DIRS = (
 
 # Settings for django-allauth (from https://github.com/pennersr/django-allauth)
 TEMPLATE_CONTEXT_PROCESSORS = (
+    # For messages framework
+    "django.contrib.messages.context_processors.messages",
     # Required by allauth template tags
     "django.core.context_processors.request",
     "django.contrib.auth.context_processors.auth", # added on guidance from http://www.sarahhagstrom.com/2013/09/the-missing-django-allauth-tutorial/

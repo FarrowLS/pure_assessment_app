@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 from itembank.models import Item, Option
 from assessment.models import Assessment, TesteeAssessment, TesteeResponse
@@ -26,7 +27,7 @@ def item(request, testeeassessment_id):
             try:
                 selected_option = Option.objects.get(pk=request.POST['option']) 
             except (KeyError, Option.DoesNotExist):
-                # Needs to be updated with error message
+                messages.add_message(request, messages.INFO, 'There was no valid answer submitted for the last question. Please answer the question below.')
                 return HttpResponseRedirect(reverse('assessmentitem', args=(current_testee_response.testeeassessment_id,))) 
             else:
                 current_testee_response.option_id = selected_option.id
@@ -38,6 +39,7 @@ def item(request, testeeassessment_id):
             # Check to see if assessment is finished - if it is, determine if the testee passed or failed 
             current_testee_assessment.status_update()    
             if current_testee_assessment.status == 'passed' or current_testee_assessment.status == 'failed':
+                messages.add_message(request, messages.INFO, 'You have finished your %s test!' % current_testee_assessment.assessment.name)
                 return HttpResponseRedirect(reverse('assessmentindex',))
 
             # Check to see if testee has unanswered items - if so, serve the first one
@@ -56,6 +58,7 @@ def item(request, testeeassessment_id):
 
                 if len(current_items) < current_testee_assessment.assessment.itemsneeded:
                     # Need to include an error message with this redirect - Inform use there is an issue with the test and to contact the admin
+                    messages.add_message(request, messages.INFO, 'There are not enough questions in your test. Please contact your tester.')
                     return HttpResponseRedirect(reverse('assessmentindex',))
                 else: 
                     # Get the item

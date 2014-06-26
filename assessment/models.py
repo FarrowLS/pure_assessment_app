@@ -26,7 +26,6 @@ class TesteeAssessment(TimeStampedModel):
     def __unicode__(self):
         return self.assessment.name
     def status_update(self):
-        # WRITE TESTS FOR THIS
         # Check to see if testee has answered enough questions to complete the assessment
         answered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id).exclude(option__isnull=True)
         if not (self.status == 'started'):

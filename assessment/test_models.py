@@ -61,5 +61,16 @@ class TesteeAssessmentMethodtests(TestCase):
         current_status = self.test_userassessment1.status_update()
         self.assertEqual(current_status, 'passed')
 
+    def test_select_item_returns_item(self):
+        """
+        status_update() should return 'passed' when an assessment is finished and passed 
+        """    
+
+        # if current_status == 'Test stem text1':
+        #     self.assertEqual(current_status, 'passed')
+        # elif current_status == 'Test stem text2': 
+
+        # else:    
+
 
 # Write tests for select_item()

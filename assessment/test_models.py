@@ -21,7 +21,7 @@ class TesteeAssessmentMethodtests(TestCase):
         self.test_user_setup1 = User.objects.create_user(username='bob', password='secret')
         # self.test_user_setup2 = User.objects.create_user(username='joe', password='secret')
         self.test_userassessment1 = TesteeAssessment.objects.create(assessment=self.test_assessment1, testee=self.test_user_setup1)
-        # I AM HERE!!!
+        
 
     def tearDown(self):
         pass
@@ -61,16 +61,12 @@ class TesteeAssessmentMethodtests(TestCase):
         current_status = self.test_userassessment1.status_update()
         self.assertEqual(current_status, 'passed')
 
-    def test_select_item_returns_item(self):
-        """
-        status_update() should return 'passed' when an assessment is finished and passed 
-        """    
+    # def test_select_item_returns_item(self):
+    #     """
+    #     select_item() should return item 
+    #     """    
+    #     current_items = Item.objects.all().filter(itembank = self.test_userassessment1.assessment.itembank).filter(status='active')
+    #     test_item = self.test_userassessment1.select_item(current_items)   
+    #     self.assertContains(test_item, 'Test stem text')
 
-        # if current_status == 'Test stem text1':
-        #     self.assertEqual(current_status, 'passed')
-        # elif current_status == 'Test stem text2': 
-
-        # else:    
-
-
-# Write tests for select_item()
+# Finish writing tests for select_item()

@@ -61,12 +61,26 @@ class TesteeAssessmentMethodtests(TestCase):
         current_status = self.test_userassessment1.status_update()
         self.assertEqual(current_status, 'passed')
 
-    # def test_select_item_returns_item(self):
-    #     """
-    #     select_item() should return item 
-    #     """    
-    #     current_items = Item.objects.all().filter(itembank = self.test_userassessment1.assessment.itembank).filter(status='active')
-    #     test_item = self.test_userassessment1.select_item(current_items)   
-    #     self.assertContains(test_item, 'Test stem text')
+    def test_select_item_returns_item(self):
+        """
+        select_item() should return item 
+        """    
+        current_items = Item.objects.all() 
+        test_item = self.test_userassessment1.select_item(current_items)   
+        if test_item.stem_text == 'Test stem text1':
+            self.assertEquals(test_item.stem_text, 'Test stem text1')
+        else:     
+            self.assertEquals(test_item.stem_text, 'Test stem text2')
+
+
+    def test_select_item_returns_unanswered_item(self):
+        """
+        select_item() should return an unanswered item 
+        """ 
+        current_items = Item.objects.all() 
+        TesteeResponse.objects.create(testeeassessment=self.test_userassessment1, item=self.test_item1, option=self.test_option1_1)
+        test_item = self.test_userassessment1.select_item(current_items)
+        self.assertEquals(test_item.stem_text, 'Test stem text2')
+
 
 # Finish writing tests for select_item()

@@ -152,28 +152,4 @@ class AssessmentItemTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test stem text1")
 
-    # def test_assessment_answered_item_should_not_be_served(self):
-        """
-        Answered items should not be served
-        """
-        # TEST TO BE FIXED 
-
-        # test_user = Client()
-        # test_user.login(username='bob', password='secret')
-
-        # test_testeeresponse = TesteeResponse.objects.create(testeeassessment=self.test_userassessment1, item=self.test_item2) # , option=self.test_option2_1)
-
-        # response = test_user.get(reverse('assessmentitem', args=(self.test_userassessment1.id,)), **{'wsgi.url_scheme': 'https'})
-        
-        # TO BE UPDATED - CHANGE BACK TO 200 AFTER ITEM SELECTION IS UPDATED
-        # self.assertEqual(response.status_code, 302) 
-
-        # self.assertEqual(response.status_code, 200)
-        # self.assertContains(response, "text2")
-        
-
-    # Test to show passing assessment
-
-    # Test to show failing assessment
-
     # Not enough items to give assessment

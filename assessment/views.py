@@ -48,9 +48,6 @@ def item(request, testeeassessment_id):
                 item = get_object_or_404(Item, pk=unanswered_items[0].item_id) 
                 testee_response_id = unanswered_items[0].id
 
-                # FOR TESTING
-                answered_and_unanswered_items_ids = ''
-
             # If there is not an existing item, serve a new item
             else:   
                 #Select a new item - make sure it is from the correct itembank 

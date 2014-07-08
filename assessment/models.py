@@ -41,7 +41,6 @@ class TesteeAssessment(TimeStampedModel):
             self.save()
         return self.status
     def select_item(self, current_items):
-        # FINISH TESTS FOR THIS
         # Select an item, make sure item has not been presented before and return it      
         answered_and_unanswered_items = TesteeResponse.objects.all().filter(testeeassessment=self.id) 
         answered_and_unanswered_items_ids = []

@@ -81,6 +81,3 @@ class TesteeAssessmentMethodtests(TestCase):
         TesteeResponse.objects.create(testeeassessment=self.test_userassessment1, item=self.test_item1, option=self.test_option1_1)
         test_item = self.test_userassessment1.select_item(current_items)
         self.assertEquals(test_item.stem_text, 'Test stem text2')
-
-
-# Finish writing tests for select_item()

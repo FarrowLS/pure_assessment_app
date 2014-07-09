@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     # My paths
     # url(r'^logout/', include('')),
     url(r'^about/', include('about.urls')), # about
+    url(r'^itembank/', include('itembank.urls')), # itembank
     url(r'^assessments/', include('assessment.urls')),  # assessments
     # NOT CURRENTLY IN USE # url(r'^items/', include('item.urls')),  # items
     # For redirecting root url

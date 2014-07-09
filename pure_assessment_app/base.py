@@ -60,6 +60,8 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
+    # For djangorestframework
+    'rest_framework',
     # Start custom apps
     'about',
     'assessment', 
@@ -91,6 +93,11 @@ SECURE_BROWSER_XSS_FILTER = True
 # Related security settings
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

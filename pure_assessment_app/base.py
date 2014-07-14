@@ -14,34 +14,14 @@ settings/base.py
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# ImproperlyConfigured imported to handle SECRET_KEY exceptions
-# See page 46 in Two Scoops of Django 1.6 for details
-from django.core.exceptions import ImproperlyConfigured
-
-def get_env_variable(var_name):
-    try: 
-        return os.environ[var_name]
-    except KeyError:
-        error_msq = "Set the %s environment variable" % var_name
-        raise ImproperlyConfigured(error_msg)
-
-
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY is handled by an environmental variable for security purposes
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# Settings move to environment setting files
-# DEBUG = True
-# TEMPLATE_DEBUG = True
+# Debuging handled in settings/development.py
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -76,7 +56,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # MIDDLEWARE IS INCLUDED ABOVE 'djangosecure.middleware.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'pure_assessment_app.urls'
@@ -128,7 +107,7 @@ USE_TZ = True
 
 # Added to allow template files to be served from multiple directories
 # http://stackoverflow.com/questions/11768143/heroku-cant-find-django-templates
-PROJECT_DIR = os.path.dirname(__file__) # this is not a standard Django setting.
+PROJECT_DIR = os.path.dirname(__file__) 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR, "templates"),
     # here you can add another templates directory if you wish.

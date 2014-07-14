@@ -105,13 +105,17 @@
 
     <script src="{% static "pure_assessment_app/jquery-1.11.0/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "pure_assessment_app/bootstrap-3.1.1-dist/js/bootstrap.min.js" %}"></script>
- 
+    
+    <!-- Start test -->
+    {% if DJANGO_SETTINGS_MODULE == 'pure_assessment_app.production' %}
     <script>
         // Test script section
         $(function () {
-            // alert('hello!');
+            alert('hello!');
         });
     </script>
+    {% endif %}
+    <!-- End test -->
 
 </body>
 

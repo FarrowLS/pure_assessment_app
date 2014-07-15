@@ -6,4 +6,5 @@ env:
 install: "pip install -r requirements.txt"
 before_script:
 script:
-  - python setup.py test
+  - python manage.py test itembank
+  - python manage.py test about

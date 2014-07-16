@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+import random
 
 from itembank.models import Item, Option
 from assessment.models import Assessment, TesteeAssessment, TesteeResponse
@@ -66,7 +67,10 @@ def item(request, testeeassessment_id):
                     new_testee_response.save()        
                     testee_response_id = new_testee_response.id
 
+            current_options = sorted(Option.objects.all().filter(item=item.id), key=lambda x: random.random())            
+
             context = {'item': item,
+                       'current_options': current_options, 
                        'testeeassessment_id': current_testee_assessment.id,  
                        'testee_response_id': testee_response_id,}
                        

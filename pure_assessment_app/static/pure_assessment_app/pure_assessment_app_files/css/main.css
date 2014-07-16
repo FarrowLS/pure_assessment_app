@@ -5,3 +5,7 @@ body {
 .app-template {
   padding: 20px 0px;
 }
+
+li.item-display {
+    list-style-type: upper-alpha;
+}

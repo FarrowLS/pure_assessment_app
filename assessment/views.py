@@ -67,6 +67,7 @@ def item(request, testeeassessment_id):
                     new_testee_response.save()        
                     testee_response_id = new_testee_response.id
 
+            # Get the options for the item and randomize their order
             current_options = sorted(Option.objects.all().filter(item=item.id), key=lambda x: random.random())            
 
             context = {'item': item,

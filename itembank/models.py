@@ -14,6 +14,7 @@ class Itembank(TimeStampedModel):
 class Item(TimeStampedModel):
     itembank = models.ForeignKey(Itembank)
     stem_text = models.CharField(max_length=200)
+    feedback_text = models.TextField(default='')
     STATUS = Choices('active', 'inactive')
     status = StatusField()
     # stem_text = models.CharField(max_length=200)

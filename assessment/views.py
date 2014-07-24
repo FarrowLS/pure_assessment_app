@@ -15,6 +15,11 @@ def index(request):
                'finished_assesments_list': finished_assesments_list,}  
     return render(request, 'assessment/index.html', context)
 
+def feedback(request, testeeassessment_id):
+    context = {'item_feedback': 'Your feedback!',
+               'testeeassessment_id': testeeassessment_id, }
+    return render(request, 'assessment/feedback.html', context)        
+
 def item(request, testeeassessment_id):    
     current_testee_assessment = get_object_or_404(TesteeAssessment, pk=testeeassessment_id)
     # Check to see if the user has access to the test

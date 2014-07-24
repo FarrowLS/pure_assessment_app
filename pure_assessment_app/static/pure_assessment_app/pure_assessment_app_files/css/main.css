@@ -9,3 +9,7 @@ body {
 li.item-display {
     list-style-type: upper-alpha;
 }
+
+.feedback-display {
+    text-transform: capitalize;
+}

@@ -28,7 +28,12 @@
 {% if finished_assesments_list %}
     <ul>
     {% for assessment in finished_assesments_list %}
-        <li>{{assessment.assessment.name}} - {{assessment.status}} </li>
+        <li>
+            {{assessment.assessment.name}} - <span class="feedback-display"> {{assessment.status}} </span>
+            {% if assessment.status == 'failed' %}
+                <a href=" {% url 'assessmentfeedback' assessment.id %} ">Test Feedback</a> 
+            {% endif %}
+        </li>
     {% endfor %}
     </ul>
 {% else %}

@@ -54,22 +54,4 @@
     </ul>
 {% endif %}
 
-<!--
-<h5>TO BE REMOVED - Completed Tests</h5>
-{% if finished_assesments_list %}
-    <ul>
-    {% for assessment in finished_assesments_list %}
-        <li>
-            {{assessment.assessment.name}} - <span class="feedback-display"> {{assessment.status}} </span>
-            {% if assessment.status == 'failed' %}
-                <br /><a href=" {% url 'assessmentfeedback' assessment.id %} ">Get feedback on your test</a> 
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You have not completed any tests yet.</p>
-{% endif %}
--->
-
 {% endblock body %}

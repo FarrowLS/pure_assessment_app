@@ -31,7 +31,7 @@
         <li>
             {{assessment.assessment.name}} - <span class="feedback-display"> {{assessment.status}} </span>
             {% if assessment.status == 'failed' %}
-                <a href=" {% url 'assessmentfeedback' assessment.id %} ">Test Feedback</a> 
+                <br /><a href=" {% url 'assessmentfeedback' assessment.id %} ">Get feedback on your test</a> 
             {% endif %}
         </li>
     {% endfor %}

@@ -16,9 +16,25 @@ def index(request):
     return render(request, 'assessment/index.html', context)
 
 def feedback(request, testeeassessment_id):
-    context = {'item_feedback': 'Your feedback!',
-               'testeeassessment_id': testeeassessment_id, }
-    return render(request, 'assessment/feedback.html', context)        
+    # Check to see if the user has access to the test
+    current_testee_assessment = get_object_or_404(TesteeAssessment, pk=testeeassessment_id)
+    if not current_testee_assessment.testee == request.user:
+        raise PermissionDenied
+    else:
+        # Determan if there is feedback to be given
+        if (current_testee_assessment.status != 'failed'):
+            messages.add_message(request, messages.INFO, 'Currently there is no feedback for that test.')
+            return HttpResponseRedirect(reverse('assessmentindex',))
+        else:    
+            # Get items which there is feedback to be given
+            incorrect_answers = TesteeResponse.objects.all().filter(testeeassessment=testeeassessment_id).filter(option__correct_answer=False)
+            feedback_text_items = []
+            for answer in incorrect_answers:
+                feedback_text_items.append(get_object_or_404(Item, pk=answer.item_id))
+                
+            context = {'item_feedback': feedback_text_items,
+                       'testeeassessment_id': testeeassessment_id, }
+            return render(request, 'assessment/feedback.html', context)        
 
 def item(request, testeeassessment_id):    
     current_testee_assessment = get_object_or_404(TesteeAssessment, pk=testeeassessment_id)

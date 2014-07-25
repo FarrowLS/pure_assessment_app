@@ -13,7 +13,13 @@
 {% endblock breadcrumbend %}
 
 {% block body %}
-
-{{item_feedback}}
+<p>
+You missed at least one question in your test. Please keep the following in mind for the future.
+</p>
+<ul>
+{% for item_text in item_feedback %}
+    <li>{{ item_text.feedback_text }}</li>
+{% endfor %}
+</ul>
 
 {% endblock body %}

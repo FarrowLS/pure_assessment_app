@@ -24,7 +24,38 @@
     <p>You do not have any tests to complete at this time.</p>
 {% endif %}
 
-<h5>Completed Tests</h5>
+{% if passed_assesments_list %}
+<h5>Passed Tests</h5>
+
+    <ul>
+    {% for assessment in passed_assesments_list %}
+        <li>
+            {{assessment.assessment.name}} - <span class="feedback-display"> {{assessment.status}} </span>
+            {% if assessment.status == 'failed' %}
+                <br /><a href=" {% url 'assessmentfeedback' assessment.id %} ">Get feedback on your test</a> 
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if failed_assesments_list %}
+<h5>Failed Tests</h5>
+
+    <ul>
+    {% for assessment in failed_assesments_list %}
+        <li>
+            {{assessment.assessment.name}} - <span class="feedback-display"> {{assessment.status}} </span>
+            {% if assessment.status == 'failed' %}
+                <br /><a href=" {% url 'assessmentfeedback' assessment.id %} ">Get feedback on your test</a> 
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<!--
+<h5>TO BE REMOVED - Completed Tests</h5>
 {% if finished_assesments_list %}
     <ul>
     {% for assessment in finished_assesments_list %}
@@ -39,5 +70,6 @@
 {% else %}
     <p>You have not completed any tests yet.</p>
 {% endif %}
+-->
 
 {% endblock body %}

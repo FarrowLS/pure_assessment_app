@@ -10,9 +10,14 @@ from assessment.models import Assessment, TesteeAssessment, TesteeResponse
 
 def index(request):
     active_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).exclude(status='passed').exclude(status='failed') 
-    finished_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).exclude(status='not-started').exclude(status='started') 
+    finished_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).exclude(status='not-started').exclude(status='started') # TO BE REMOVED
+    passed_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).filter(status='passed')
+    failed_assesments_list = TesteeAssessment.objects.all().filter(testee=request.user).filter(status='failed')
+
     context = {'active_assesments_list': active_assesments_list, 
-               'finished_assesments_list': finished_assesments_list,}  
+               'finished_assesments_list': finished_assesments_list,
+               'passed_assesments_list': passed_assesments_list,
+               'failed_assesments_list': failed_assesments_list,}  
     return render(request, 'assessment/index.html', context)
 
 def feedback(request, testeeassessment_id):
@@ -31,7 +36,7 @@ def feedback(request, testeeassessment_id):
             feedback_text_items = []
             for answer in incorrect_answers:
                 feedback_text_items.append(get_object_or_404(Item, pk=answer.item_id))
-                
+
             context = {'item_feedback': feedback_text_items,
                        'testeeassessment_id': testeeassessment_id, }
             return render(request, 'assessment/feedback.html', context)        
